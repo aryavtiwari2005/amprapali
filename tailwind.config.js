@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+const { Roboto } = require('next/font/google');
+const { fontFamily } = require('tailwindcss/defaultTheme')
+
 module.exports = {
   content: [
     "./src/app/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,6 +14,13 @@ module.exports = {
         brown: {
           800: '#5a3e36', // Example brown shade
         },
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', ...fontFamily.sans],
+        merriweather: ['var(--font-merriweather)', ...fontFamily.serif],
+        montserrat: ['var(--font-montserrat)', ...fontFamily.sans],
+        playfair: ['var(--font-playfair)', ...fontFamily.serif],
+        roboto: ['var(--font-roboto)', ...fontFamily.sans],
       },
     },
   },

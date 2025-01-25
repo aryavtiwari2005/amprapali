@@ -1,12 +1,17 @@
-import Link from 'next/link';
+'use client';
+import React from 'react';
+import Navbar from '../components/Navbar';
+import Homepage from '../components/Homepage';
+import Footer from '../components/Footer';
 
-export default function Home() {
+const BuilderWebsite = () => {
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold">Welcome to the About Us App</h1>
-      <Link href="/about">
-        <span className="text-blue-600 hover:underline">Go to About Us Page</span>
-      </Link>
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <Homepage />
+      <Footer />
     </div>
   );
-}
+};
+
+export default BuilderWebsite;
