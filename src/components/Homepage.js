@@ -9,9 +9,7 @@ import {
   MapPin, 
   Bed, 
   Bath, 
-  Ruler, 
-  Construction,
-  Star
+  Ruler 
 } from 'lucide-react';
 import { Inter, Merriweather, Montserrat, Playfair_Display, Roboto } from 'next/font/google';
 
@@ -114,21 +112,6 @@ const Homepage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const projects = [
-    {
-      id: 1,
-      name: "Amrapali Eden Park",
-      location: "Sector 40, Noida",
-      image: "amp-eden.jpeg"
-    },
-    {
-      id: 2,
-      name: "Amrapali Tech Park",
-      location: "Sector 52, Noida",
-      image: "amp-tech.jpg"
-    }
-  ];
-
   const underDevelopmentProjects = [
     {
       id: 1,
@@ -210,7 +193,7 @@ const Homepage = () => {
           <motion.h1 
             variants={itemVariants}
             className="
-              text-5xl md:text-7xl font-playfair font-bold mb-6 
+              text-4xl md:text-5xl lg:text-7xl font-playfair font-bold mb-6 
               leading-tight text-transparent bg-clip-text 
               bg-gradient-to-r from-white to-gray-300
             "
@@ -220,8 +203,8 @@ const Homepage = () => {
           <motion.p 
             variants={itemVariants}
             className="
-              text-2xl md:text-2xl mb-12 font-robot font-bold 
-              font-light text-gray-200 max-w-2xl mx-auto
+              text-lg md:text-2xl mb-12 font-robot font-light 
+              text-gray-200 max-w-2xl mx-auto
             "
           >
             Discover extraordinary spaces where luxury meets innovation, crafted with unparalleled precision
@@ -231,7 +214,7 @@ const Homepage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="
-              px-12 py-4 bg-gradient-to-r from-orange-500 to-red-600 
+              px-8 py-3 md:px-12 md:py-4 bg-gradient-to-r from-orange-500 to-red-600 
               text-white rounded-full text-lg font-montserrat 
               font-semibold shadow-2xl hover:shadow-orange-500/50 
               transition-all duration-300
@@ -252,7 +235,7 @@ const Homepage = () => {
           <motion.h2 
             variants={itemVariants}
             className="
-              text-5xl font-roboto font-bold mb-4 
+              text-4xl md:text-5xl font-roboto font-bold mb-4 
               text-gray-800 tracking-tight
             "
           >
@@ -261,7 +244,7 @@ const Homepage = () => {
           <motion.p 
             variants={itemVariants}
             className="
-              text-xl text-gray-600 max-w-2xl mx-auto 
+              text-lg md:text-xl text-gray-600 max-w-2xl mx-auto 
               font-merriweather
             "
           >
@@ -269,99 +252,99 @@ const Homepage = () => {
           </motion.p>
         </div>
 
-    <div className="relative group">
-      <AnimatePresence mode="wait">
-        <motion.div 
-          key={activeSlide}
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ 
-            duration: 0.5,
-            type: "tween"
-          }}
-          className="grid md:grid-cols-2 gap-10"
-        >
-          {properties.slice(activeSlide * 2, activeSlide * 2 + 2).map(property => (
+        <div className="relative group">
+          <AnimatePresence mode="wait">
             <motion.div 
-              key={property.id}
-              whileHover={{ 
-                scale: 1.03,
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+              key={activeSlide}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ 
+                duration: 0.5,
+                type: "tween"
               }}
-              className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 transform transition-all duration-300"
+              className="grid grid-cols-1 md:grid-cols-2 gap-10"
             >
-              <div className="relative">
-                <img 
-                  src={property.image} 
-                  alt={property.title} 
-                  className="w-full h-80 object-cover"
-                />
-                <div className="absolute top-6 right-6 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold">
-                  {property.price}
-                </div>
-              </div>
-              <div className="p-8">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-3xl font-roboto font-bold text-gray-800">{property.title}</h3>
-                  <div className="flex items-center text-yellow-500">
-                    <span className="font-bold">4.8</span>
-                  </div>
-                </div>
-                <div className="flex items-center text-gray-600 mb-6">
-                  <MapPin className="mr-3 w-6 h-6 text-orange-500" />
-                  <span className="text-lg">{property.location}</span>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-4 mb-8 text-center">
-                  {property.beds && (
-                    <div className="bg-gray-50 p-3 rounded-xl">
-                      <Bed className="mx-auto mb-2 w-6 h-6 text-orange-500" />
-                      <span className="text-sm font-medium">{property.beds} Beds</span>
-                    </div>
-                  )}
-                  {property.baths && (
-                    <div className="bg-gray-50 p-3 rounded-xl">
-                      <Bath className="mx-auto mb-2 w-6 h-6 text-orange-500" />
-                      <span className="text-sm font-medium">{property.baths} Baths</span>
-                    </div>
-                  )}
-                  <div className="bg-gray-50 p-3 rounded-xl">
-                    <Ruler className="mx-auto mb-2 w-6 h-6 text-orange-500" />
-                    <span className="text-sm font-medium">{property.area}</span>
-                  </div>
-                </div>
-                
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-full font-semibold transition-all duration-300"
-                  onClick={() => window.location.href = '/properties'} // Redirect to properties page
+              {properties.slice(activeSlide * 2, activeSlide * 2 + 2).map(property => (
+                <motion.div 
+                  key={property.id}
+                  whileHover={{ 
+                    scale: 1.03,
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                  }}
+                  className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 transform transition-all duration-300"
                 >
-                  View Details
-                </motion.button>
-              </div>
+                  <div className="relative">
+                    <img 
+                      src={property.image} 
+                      alt={property.title} 
+                      className="w-full h-80 object-cover"
+                    />
+                    <div className="absolute top-6 right-6 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+                      {property.price}
+                    </div>
+                  </div>
+                  <div className="p-6 md:p-8">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-xl md:text-3xl font-roboto font-bold text-gray-800">{property.title}</h3>
+                      <div className="flex items-center text-yellow-500">
+                        <span className="font-bold">4.8</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center text-gray-600 mb-6">
+                      <MapPin className="mr-3 w-6 h-6 text-orange-500" />
+                      <span className="text-lg">{property.location}</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-4 mb-8 text-center">
+                      {property.beds && (
+                        <div className="bg-gray-50 p-3 rounded-xl">
+                          <Bed className="mx-auto mb-2 w-6 h-6 text-orange-500" />
+                          <span className="text-sm font-medium">{property.beds} Beds</span>
+                        </div>
+                      )}
+                      {property.baths && (
+                        <div className="bg-gray-50 p-3 rounded-xl">
+                          <Bath className="mx-auto mb-2 w-6 h-6 text-orange-500" />
+                          <span className="text-sm font-medium ">{property.baths} Baths</span>
+                        </div>
+                      )}
+                      <div className="bg-gray-50 p-3 rounded-xl">
+                        <Ruler className="mx-auto mb-2 w-6 h-6 text-orange-500" />
+                        <span className="text-sm font-medium">{property.area}</span>
+                      </div>
+                    </div>
+                    
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-full font-semibold transition-all duration-300"
+                      onClick={() => window.location.href = '/properties'} // Redirect to properties page
+                    >
+                      View Details
+                    </motion.button>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence> 
+          </AnimatePresence> 
 
-            <motion.button 
-              whileHover={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)" }} // Change shadow on hover
-              onClick={() => setActiveSlide(prev => prev === 0 ? Math.ceil(properties.length / 2) - 1 : prev - 1)}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white shadow-lg rounded-full p-3"
-              style={{ width: '50px', height: '50px', transformOrigin: 'center' }} // Fixed size and center origin
-            >
-              <ArrowLeft className="h-6 w-6 text-gray-700" />
-            </motion.button>
-            <motion.button 
-              whileHover={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)" }} // Change shadow on hover
-              onClick={() => setActiveSlide(prev => prev >= Math.ceil(properties.length / 2) - 1 ? 0 : prev + 1)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white shadow-lg rounded-full p-3"
-              style={{ width: '50px', height: '50px', transformOrigin: 'center' }} // Fixed size and center origin
-            >
-              <ArrowRight className="h-6 w-6 text-gray-700" />
-            </motion.button>
+          <motion.button 
+            whileHover={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)" }} // Change shadow on hover
+            onClick={() => setActiveSlide(prev => prev === 0 ? Math.ceil(properties.length / 2) - 1 : prev - 1)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white shadow-lg rounded-full p-3"
+            style={{ width: '50px', height: '50px', transformOrigin: 'center' }} // Fixed size and center origin
+          >
+            <ArrowLeft className="h-6 w-6 text-gray-700" />
+          </motion.button>
+          <motion.button 
+            whileHover={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)" }} // Change shadow on hover
+            onClick={() => setActiveSlide(prev => prev >= Math.ceil(properties.length / 2) - 1 ? 0 : prev + 1)}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white shadow-lg rounded-full p-3"
+            style={{ width: '50px', height: '50px', transformOrigin: 'center' }} // Fixed size and center origin
+          >
+            <ArrowRight className="h-6 w-6 text-gray-700" />
+          </motion.button>
         </div>
       </motion.section>
 
@@ -375,13 +358,13 @@ const Homepage = () => {
         <div className="text-center mb-16">
           <motion.h2 
             variants={itemVariants}
-            className="text-5xl font-roboto font-bold mb-4 text-gray-800 tracking-tight"
+            className="text-4xl md:text-5xl font-roboto font-bold mb-4 text-gray-800 tracking-tight"
           >
             Under Development Projects
           </motion.h2>
           <motion.p 
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto"
           >
             Get a sneak peek at our upcoming projects
           </motion.p>
@@ -395,8 +378,8 @@ const Homepage = () => {
               className="bg-white rounded-3xl shadow-xl overflow-hidden transform transition-all duration-300"
             >
               <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
-              <div className="p-8">
-                <h3 className="text-3xl font-roboto font-bold mb-2 text-gray-800">{project.title}</h3>
+              <div className="p-6">
+                <h3 className="text-2xl md:text-3xl font-roboto font-bold mb-2 text-gray-800">{project.title}</h3>
                 <p className="text-gray-600 mb-4">{project.description}</p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}

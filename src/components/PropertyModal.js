@@ -46,7 +46,7 @@ const PropertyModal = ({ property, onClose }) => {
       onClick={handleBackdropClick} // Handle backdrop click
     >
       <motion.div
-        className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-10/12 lg:w-9/12 max-w-8xl relative overflow-hidden max-h-[80vh] overflow-y-auto" // Adjusted width for responsiveness
+        className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-11/12 md:w-10/12 lg:w-9/12 max-w-4xl relative overflow-hidden max-h-[80vh] overflow-y-auto" // Adjusted width for responsiveness
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         exit={{ scale: 0.9 }}
@@ -67,7 +67,7 @@ const PropertyModal = ({ property, onClose }) => {
                 key={currentImageIndex} // Key to trigger animation on image change
                 src={property.images[currentImageIndex]} 
                 alt={property.title} 
-                className="w-full h-[60vh] object-contain rounded-lg transition-opacity duration-300 cursor-pointer" // Increased height for larger image
+                className="w-full h-[40vh] sm:h-[60vh] object-contain rounded-lg transition-opacity duration-300 cursor-pointer" // Increased height for larger image
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -93,7 +93,7 @@ const PropertyModal = ({ property, onClose }) => {
           )}
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">{property.title}</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">{property.title}</h2>
         <p className="text-gray-600 mb-4 flex items-center">
           <MapPin className="w-5 h-5 text-orange-500 mr-2" />
           {property.location}
@@ -113,7 +113,7 @@ const PropertyModal = ({ property, onClose }) => {
           ))}
         </div>
         <div className="flex justify-between items-center mb-4">
-          <span className="text-2xl font-bold text-gray-800">
+          <span className="text-xl sm:text-2xl font-bold text-gray-800">
             {property.price.toLocaleString()}
           </span>
           <div className="flex items-center text-yellow-500">

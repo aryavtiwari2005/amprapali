@@ -108,7 +108,6 @@ const PropertyCarousel = () => {
 
   return (
     <div className="relative">
-      <Navbar />
       <div className="absolute inset-0 bg-yellow-200 rounded-xl transform translate-x-4 translate-y-4 opacity-90 transition-all duration-500" />
       
       <div className="relative rounded-xl shadow-xl overflow-hidden">
@@ -169,20 +168,21 @@ const PropertyCarousel = () => {
 const AboutPage = () => {
   return (
     <div className="w-full bg-white">
+      <Navbar />
       <div className={`relative h-screen overflow-hidden ${inter.variable} ${merriweather.variable} 
         ${montserrat.variable} ${playfair.variable}`}>
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 to-transparent opacity-85" />
         <img src="landing.jpg" alt="Amrapali Landmark Project" className="w-full h-full object-cover" />
         <div className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-16 lg:px-24">
-        <div className="max-w-3xl bg-white bg-opacity-30 backdrop-blur-md p-6 rounded-lg border border-gray-200 shadow-lg">
-          <h1 className={`text-5xl md:text-7xl font-bold text-brown-800 mb-8 leading-tight tracking-tight transition-transform duration-500 transform hover:scale-105 font-playfair`}>
-            Building <span className="font-bold block">Dreams & Legacies</span>
-          </h1>
-          <p className={`text-xl md:text-2xl text-gray-700 mb-12 leading-relaxed font-light tracking-wide font-playfair`}>
-            Pioneers in Real Estate Development Since 1998,<br />
-            <span className="font-medium">Redefining Luxurious Living Across India</span>
-          </p>
-        </div>
+          <div className="max-w-3xl bg-white bg-opacity-30 backdrop-blur-md p-6 rounded-lg border border-gray-200 shadow-lg">
+            <h1 className={`text-5xl md:text-7xl font-bold text-brown-800 mb-8 leading-tight tracking-tight transition-transform duration-500 transform hover:scale-105 font-playfair`}>
+              Building <span className="font-bold block">Dreams & Legacies</span>
+            </h1>
+            <p className={`text-xl md:text-2xl text-gray-700 mb-12 leading-relaxed font-light tracking-wide font-playfair`}>
+              Pioneers in Real Estate Development Since 1998,<br />
+              <span className="font-medium">Redefining Luxurious Living Across India</span>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -199,10 +199,10 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-32">
+      <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           <div className="space-y-10">
-            <h2 className={`text-5xl font-bold leading-tight ${playfair.variable}`}>
+            <h2 className={`text-4xl font-bold leading-tight ${playfair.variable}`}>
               <span className="text-brown-800">AMRAPALI GROUP</span>
               <br />
               <span className="tracking-widest">AN INTRODUCTION</span>

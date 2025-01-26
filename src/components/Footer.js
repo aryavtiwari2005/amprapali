@@ -11,8 +11,7 @@ import {
   Twitter, 
   Instagram, 
   Linkedin, 
-  Youtube, 
-  Globe 
+  Youtube 
 } from 'lucide-react';
 
 const contactInfo = {
@@ -42,28 +41,28 @@ const Footer = () => {
   return (
     <footer className="bg-brown-800 text-white">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-16">
           {/* Corporate Office */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-yellow-400">Corporate Office</h3>
-            <div className="space-y-4 text-gray-300">
-              <p className="flex items-start space-x-4">
-                <Building2 className="w-7 h-7 mt-1 text-yellow-400" />
+          <div className="space-y-4 md:space-y-6">
+            <h3 className="text-xl md:text-2xl font-semibold text-yellow-400">{contactInfo.corporate.title}</h3>
+            <div className="space-y-2 text-gray-300">
+              <p className="flex items-start space-x-2">
+                <Building2 className="w-6 h-6 text-yellow-400" />
                 <span>{contactInfo.corporate.address}</span>
               </p>
-              <p className="flex items-center space-x-4">
+              <p className="flex items-center space-x-2">
                 <Phone className="w-5 h-5 text-yellow-400" />
                 <a href={`tel:${contactInfo.corporate.phone}`} className="hover:text-yellow-400 transition-colors duration-200">
                   {contactInfo.corporate.phone}
                 </a>
               </p>
-              <p className="flex items-center space-x-4">
+              <p className="flex items-center space-x-2">
                 <Mail className="w-5 h-5 text-yellow-400" />
                 <a href={`mailto:${contactInfo.corporate.email}`} className="hover:text-yellow-400 transition-colors duration-200">
                   {contactInfo.corporate.email}
                 </a>
               </p>
-              <p className="flex items-center space-x-4">
+              <p className="flex items-center space-x-2">
                 <Clock className="w-5 h-5 text-yellow-400" />
                 <span>{contactInfo.corporate.workingHours}</span>
               </p>
@@ -71,20 +70,20 @@ const Footer = () => {
           </div>
 
           {/* Registered Office */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-yellow-400">Registered Office</h3>
-            <div className="space-y-4 text-gray-300">
-              <p className="flex items-start space-x-4">
-                <Building2 className="w-10 h-10 mt-1 text-yellow-400" />
+          <div className="space-y-4 md:space-y-6">
+            <h3 className="text-xl md:text-2xl font-semibold text-yellow-400">{contactInfo.registered.title}</h3>
+            <div className="space-y-2 text-gray-300">
+              <p className="flex items-start space-x-2">
+                <Building2 className="w-6 h-6 text-yellow-400" />
                 <span>{contactInfo.registered.address}</span>
               </p>
-              <p className="flex items-center space-x-4">
+              <p className="flex items-center space-x-2">
                 <Phone className="w-5 h-5 text-yellow-400" />
                 <a href={`tel:${contactInfo.registered.phone}`} className="hover:text-yellow-400 transition-colors duration-200">
                   {contactInfo.registered.phone}
                 </a>
               </p>
-              <p className="flex items-center space-x-4">
+              <p className="flex items-center space-x-2">
                 <Mail className="w-5 h-5 text-yellow-400" />
                 <a href={`mailto:${contactInfo.registered.email}`} className="hover:text-yellow-400 transition-colors duration-200">
                   {contactInfo.registered.email}
@@ -94,47 +93,31 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-yellow-400">Quick Links</h3>
-            <ul className="space-y-4 text-gray-300">
-              <li>
-                <a href="#" className="flex items-center space-x-4 hover:text-yellow-400 transition-colors duration-200">
-                  <ArrowRight className="w-5 h-5 text-yellow-400" />
-                  <span>Our Projects</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center space-x-4 hover:text-yellow-400 transition-colors duration-200">
-                  <ArrowRight className="w-5 h-5 text-yellow-400" />
-                  <span>About Us</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center space-x-4 hover:text-yellow-400 transition-colors duration-200">
-                  <ArrowRight className="w-5 h-5 text-yellow-400" />
-                  <span>Careers</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center space-x-4 hover:text-yellow-400 transition-colors duration-200">
-                  <ArrowRight className="w-5 h-5 text-yellow-400" />
-                  <span>Contact</span>
-                </a>
-              </li>
+          <div className="space-y-4 md:space-y-6">
+            <h3 className="text-xl md:text-2xl font-semibold text-yellow-400">Quick Links</h3>
+            <ul className="space-y-2 text-gray-300">
+              {['Our Projects', 'About Us', 'Careers', 'Contact'].map((link, index) => (
+                <li key={index}>
+                  <a href="#" className="flex items-center space-x-2 hover:text-yellow-400 transition-colors duration-200">
+                    <ArrowRight className="w-5 h-5 text-yellow-400" />
+                    <span>{link}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Connect With Us */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-yellow-400">Connect With Us</h3>
-            <div className="grid grid-cols-2 gap-4 text-gray-300">
+          <div className="space-y-4 md:space-y-6">
+            <h3 className="text-xl md:text-2xl font-semibold text-yellow-400">Connect With Us</h3>
+            <div className="flex flex-wrap gap-4 text-gray-300">
               {Object.entries(contactInfo.social).map(([platform, link]) => (
                 <a
                   key={platform}
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-3 hover:text-yellow-400 transition-colors duration-200"
+                  className="flex items-center space-x-2 hover:text-yellow-400 transition-colors duration-200"
                 >
                   {platform === "facebook" && <Facebook className="w-5 h-5" />}
                   {platform === "twitter" && <Twitter className="w-5 h-5" />}
@@ -155,7 +138,7 @@ const Footer = () => {
             <p className="text-gray-300 text-sm">
               ©️ 2025 Amrapali Group. All rights reserved.
             </p>
-            <div className="flex space-x-6">
+            <div className="flex flex-wrap space-x-4">
               <a href="#" className="text-gray-300 hover:text-yellow-400 transition-colors duration-200 text-sm">Privacy Policy</a>
               <a href="#" className="text-gray-300 hover:text-yellow-400 transition-colors duration-200 text-sm">Terms of Service</a>
               <a href="#" className="text-gray-300 hover:text-yellow-400 transition-colors duration-200 text-sm">Cookie Policy</a>
