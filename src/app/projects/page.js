@@ -2,13 +2,6 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import React from 'react';
-import { Inter, Montserrat, Playfair_Display, Roboto, Poppins } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' });
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
-const poppins = Poppins({ subsets: ['latin'], variable: '--font-poppins', weight: ['400', '500', '700'] });
 
 const ProjectsPage = () => {
     const projects = [
@@ -80,7 +73,7 @@ const ProjectsPage = () => {
   const [activeFilter, setActiveFilter] = React.useState('Residential');
 
   return (
-    <div className={`w-full ${roboto.className} ${poppins.variable} ${inter.variable} ${montserrat.variable} ${playfair.variable} ${roboto.variable}`}>
+    <div className={`w-full`}>
       {/* Hero Section */}
       <Navbar />
       <div className="relative min-h-screen mb-16">
@@ -93,8 +86,8 @@ const ProjectsPage = () => {
           <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         </div>
         <div className="relative min-h-screen flex flex-col justify-center px-8">
-          <h1 className="text-5xl font-bold text-white mb-4 font-sans" style={{ fontFamily: 'var(--font-poppins)' }}>Residential</h1>
-          <p className="text-xl text-white mb-6 font-light" style={{ fontFamily: 'var(--font-inter)' }}>We provide best services for your family living.</p>
+          <h1 className="text-5xl font-bold text-white mb-4 font-poppins">Residential</h1>
+          <p className="text-xl text-white mb-6 font-light font-inter">We provide best services for your family living.</p>
           <button className="bg-orange-400 text-white px-6 py-2 rounded-md w-32 hover:bg-orange-500 transition-colors font-medium">
             Read More
           </button>
@@ -103,7 +96,7 @@ const ProjectsPage = () => {
 
       {/* Projects Section */}
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8" style={{ fontFamily: 'var(--font-poppins)' }}>Our Projects</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 font-poppins">Our Projects</h2>
         
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -135,10 +128,10 @@ const ProjectsPage = () => {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: 'var(--font-poppins)' }}>{project.title}</h3>
-                <p className="text-gray-600 mb-1 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>Category: {project.category}</p>
-                <p className="text-gray-600 mb-4 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>Duration: {project.duration}</p>
-                <button className="text-orange-400 hover:text-orange-500 transition-colors font-medium" style={{ fontFamily: 'var(--font-montserrat)' }}>
+                <h3 className="text-xl font-semibold mb-2 font-poppins">{project.title}</h3>
+                <p className="text-gray-600 mb-1 text-sm font-inter">Category: {project.category}</p>
+                <p className="text-gray-600 mb-4 text-sm font-inter">Duration: {project.duration}</p>
+                <button className="text-orange-400 hover:text-orange-500 transition-colors font-medium font-montserrat">
                   Read More
                 </button>
               </div>

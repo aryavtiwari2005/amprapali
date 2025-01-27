@@ -10,16 +10,9 @@ import {
   Ruler,
   Star
 } from 'lucide-react';
-import { Inter, Playfair, Roboto, Montserrat } from 'next/font/google';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import PropertyModal from '@/components/PropertyModal';
-
-// Font configurations
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', weight: ['300', '400', '600', '700'] });
-const playfair = Playfair({ subsets: ['latin'], variable: '--font-playfair', weight: ['400', '700'] });
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', weight: ['400', '600', '700'] });
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -118,8 +111,7 @@ const PropertiesPage = () => {
       animate="visible"
       variants={containerVariants}
       className={`
-        min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 
-        ${inter.variable} ${roboto.variable} ${playfair.variable} ${montserrat.variable}
+        min-h-screen bg-gradient-to-br from-gray-50 to-gray-100
         font-sans
       `}
     >

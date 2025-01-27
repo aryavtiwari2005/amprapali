@@ -2,9 +2,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Bed, Ruler, Star, ChevronLeft, ChevronRight, Phone } from 'lucide-react'; // Import necessary icons
-import { Montserrat } from 'next/font/google';
-
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', weight: ['400', '600', '700'] });
 
 const PropertyModal = ({ property, onClose }) => {
   const handleBackdropClick = (e) => {
@@ -57,7 +54,7 @@ const PropertyModal = ({ property, onClose }) => {
 
   return (
     <motion.div
-      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 ${montserrat.variable}`}
+      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-70`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

@@ -2,13 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Bed, Bath, Ruler } from 'lucide-react';
-import { Inter, Montserrat, Playfair_Display, Roboto } from 'next/font/google';
 import { supabase } from '@/utils/supabaseClient';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' });
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 
 const FeaturedProperties = () => {
   const [featuredProperties, setFeaturedProperties] = useState([]);
@@ -45,7 +39,7 @@ const FeaturedProperties = () => {
   return (
     <motion.section 
       variants={itemVariants}
-      className={`max-w-7xl mx-auto py-12 ${inter.variable} ${montserrat.variable} ${playfair.variable} ${roboto.variable}`}
+      className={`max-w-7xl mx-auto py-12`}
     >
       <div className="text-center mb-16">
         <motion.h2 

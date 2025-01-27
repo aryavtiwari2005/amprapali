@@ -2,28 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { Inter, Montserrat, Playfair_Display, Roboto } from 'next/font/google';
-
-const inter = Inter({ 
-  subsets: ['latin'], 
-  variable: '--font-inter' 
-});
-
-const montserrat = Montserrat({ 
-  subsets: ['latin'], 
-  variable: '--font-montserrat' 
-});
-
-const roboto = Roboto({ 
-  subsets: ['latin'], 
-  variable: '--font-roboto', 
-  weight: ['400', '500', '700'] 
-});
-
-const playfair = Playfair_Display({ 
-  subsets: ['latin'], 
-  variable: '--font-playfair' 
-});
 
 const LatestInsights = () => {
   const insights = [
@@ -54,11 +32,7 @@ const LatestInsights = () => {
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
       className={`
-        max-w-7xl mx-auto py-20 px-6 
-        ${inter.variable} 
-        ${montserrat.variable} 
-        ${playfair.variable} 
-        ${roboto.variable}
+        max-w-7xl mx-auto py-20 px-6
       `}
     >
       <div className="text-center mb-16">

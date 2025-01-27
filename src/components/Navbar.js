@@ -11,10 +11,6 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { Inter, Montserrat } from '@next/font/google';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', weight: ['300', '400', '600', '700'] });
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', weight: ['400', '600', '700'] });
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -58,7 +54,7 @@ const Navbar = () => {
   const showMobileMenu = isMobile;
 
   return (
-    <header className={`fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 ${inter.variable} ${montserrat.variable}`}>
+    <header className={`fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50`}>
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center font-montserrat">
         {/* Logo with smooth animation */}
         <motion.h1

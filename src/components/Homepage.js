@@ -12,42 +12,7 @@ import {
   Ruler 
 } from 'lucide-react';
 import FeaturedProperties from './FeaturesProperties';
-import { Inter, Merriweather, Montserrat, Playfair_Display, Roboto, Poppins } from 'next/font/google';
 import LatestInsights from './LatestInsights';
-import localFont from 'next/font/local'
-
-// Font configurations
-const inter = Inter({ 
-  subsets: ['latin'], 
-  variable: '--font-inter',
-  weight: ['300', '400', '600', '700']
-});
-
-const merriweather = Merriweather({ 
-  subsets: ['latin'], 
-  variable: '--font-merriweather',
-  weight: ['400', '700']
-});
-
-const montserrat = Montserrat({ 
-  subsets: ['latin'], 
-  variable: '--font-montserrat',
-  weight: ['400', '600', '700']
-});
-
-const playfair = Playfair_Display({ 
-  subsets: ['latin'], 
-  variable: '--font-playfair',
-  weight: ['400', '700']
-});
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  weight: ['400', '500', '700']
-});
-
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
 
 const Homepage = () => {
   const [properties, setProperties] = useState([]);
@@ -166,9 +131,6 @@ const Homepage = () => {
       variants={containerVariants}
       className={`
         min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 
-        ${inter.variable} ${merriweather.variable} 
-        ${montserrat.variable} ${playfair.variable}
-        ${roboto.variable} ${poppins.variable}
         font-sans
       `}
     >

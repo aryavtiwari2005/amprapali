@@ -6,14 +6,6 @@ import { MapPin, Mail, Phone, Send } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-// Import Google Fonts
-import { Inter, Montserrat, Playfair_Display, Roboto } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' });
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
-
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -109,8 +101,7 @@ const ContactPage = () => {
       animate="visible"
       variants={containerVariants}
       className={`min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 
-        pt-24 font-sans
-        ${inter.variable} ${roboto.variable} ${playfair.variable} ${montserrat.variable}`}
+        pt-24 font-sans`}
     >
       <Navbar />
       <motion.section

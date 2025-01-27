@@ -9,33 +9,6 @@ import {
   ChevronLeft, 
   ChevronRight 
 } from 'lucide-react';
-import { Inter, Merriweather, Montserrat, Playfair_Display, Roboto } from 'next/font/google';
-
-const inter = Inter({ 
-  subsets: ['latin'], 
-  variable: '--font-inter',
-  weight: ['300', '400', '600', '700']
-});
-
-const merriweather = Merriweather({ 
-  subsets: ['latin'], 
-  variable: '--font-merriweather',
-  weight: ['400', '700']
-});
-
-const montserrat = Montserrat({ 
-  subsets: ['latin'], 
-  variable: '--font-montserrat',
-  weight: ['400', '600', '700']
-});
-
-const playfair = Playfair_Display({ 
-  subsets: ['latin'], 
-  variable: '--font-playfair',
-  weight: ['400', '700']
-});
-
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
 
 // Keep existing stats and projects data
 const stats = [
@@ -120,7 +93,7 @@ const PropertyCarousel = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
         
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-          <h3 className={`text-2xl font-semibold mb-2 ${playfair.variable}`}>{properties[currentIndex].name}</h3>
+          <h3 className={`text-2xl font-semibold mb-2`}>{properties[currentIndex].name}</h3>
           <div className="flex justify-between items-center">
             <p className="flex items-center text-sm">
               <MapPin className="w-4 h-4 mr-2" />
@@ -169,8 +142,7 @@ const AboutPage = () => {
   return (
     <div className="w-full bg-white">
       <Navbar />
-      <div className={`relative h-screen overflow-hidden ${inter.variable} ${merriweather.variable} 
-        ${montserrat.variable} ${playfair.variable}`}>
+      <div className={`relative h-screen overflow-hidden`}>
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 to-transparent opacity-85" />
         <img src="landing.jpg" alt="Amrapali Landmark Project" className="w-full h-full object-cover" />
         <div className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-16 lg:px-24">
@@ -191,8 +163,8 @@ const AboutPage = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center p-8 border-r last:border-r-0 border-gray-100 transition-transform duration-300 hover:scale-105">
-                <h3 className={`text-4xl md:text-5xl font-bold text-brown-800 mb-3 ${playfair.variable}`}>{stat.value}</h3>
-                <p className={`text-gray-600 uppercase tracking-wider text-sm font-medium ${inter.variable}`}>{stat.label}</p>
+                <h3 className={`text-4xl md:text-5xl font-bold text-brown-800 mb-3`}>{stat.value}</h3>
+                <p className={`text-gray-600 uppercase tracking-wider text-sm font-medium`}>{stat.label}</p>
               </div>
             ))}
           </div>
@@ -202,49 +174,49 @@ const AboutPage = () => {
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           <div className="space-y-10">
-            <h2 className={`text-4xl font-bold leading-tight ${playfair.variable}`}>
+            <h2 className={`text-4xl font-bold leading-tight`}>
               <span className="text-brown-800">AMRAPALI GROUP</span>
               <br />
               <span className="tracking-widest">AN INTRODUCTION</span>
             </h2>
             <div className="space-y-6">
-              <p className={`text-xl text-gray-700 leading-relaxed font-light ${inter.variable}`}>
+              <p className={`text-xl text-gray-700 leading-relaxed font-light`}>
                 Amrapali Group stands as one of India's outstanding real estate companies, particularly recognized in Delhi and the National Capital Region (NCR). Under the leadership of Mr. Anil Sharma, the group has established itself as a premier developer of luxurious homes in strategic locations, all equipped with modern amenities.
               </p>
-              <p className={`text-xl text-gray-700 leading-relaxed font-light ${inter.variable}`}>
+              <p className={`text-xl text-gray-700 leading-relaxed font-light`}>
                 Our portfolio encompasses a diverse range of developments including commercial complexes, townships, offices, residential complexes, and family entertainment centers. We've partnered with renowned architect Hafeez Contractor to ensure exceptional design quality across all our projects.
               </p>
-              <p className={`text-xl text-gray-700 leading-relaxed font-light ${inter.variable}`}>
+              <p className={`text-xl text-gray-700 leading-relaxed font-light`}>
                 The group has concentrated its construction business in Indirapuram, Greater Noida, and parts of East Delhi, successfully completing projects across more than 100 acres. Our developments span residential, commercial, IT parks, hospitality, and township sectors.
               </p>
             </div>
             <div className="bg-yellow-100 p-10 rounded-xl shadow-sm transition-transform duration-300 hover:scale-105">
-              <blockquote className={`text-2xl text-gray-800 italic leading-relaxed font-light ${merriweather.variable}`}>
+              <blockquote className={`text-2xl text-gray-800 italic leading-relaxed font-light`}>
                 "We are committed to delivering luxurious, modern homes with impeccable quality and within promised timelines."
-                <footer className={`text-base text-gray-600 mt-6 font-medium tracking-wide ${inter.variable}`}>- Mr. Anil Sharma, Chairman</footer>
+                <footer className={`text-base text-gray-600 mt-6 font-medium tracking-wide`}>- Mr. Anil Sharma, Chairman</footer>
               </blockquote>
             </div>
           </div>
           <div className="space-y-10">
             <PropertyCarousel />
             <div className="bg-gray-50 p-8 rounded-xl transition-transform duration-300 hover:scale-105">
-              <h3 className={`text-2xl font-medium mb-6 text-brown-800 ${montserrat.variable}`}>Our Success Principles</h3>
+              <h3 className={`text-2xl font-medium mb-6 text-brown-800`}>Our Success Principles</h3>
               <ul className="space-y-4">
                 <li className="flex items-start space-x-4">
                   <ArrowRight className="w-6 h-6 text-brown-800 mt-1 flex-shrink-0" />
-                  <p className={`text-gray-700 leading-relaxed ${inter.variable}`}>Timely project delivery within stipulated timeframes</p>
+                  <p className={`text-gray-700 leading-relaxed`}>Timely project delivery within stipulated timeframes</p>
                 </li>
                 <li className="flex items-start space-x-4">
                   <ArrowRight className="w-6 h-6 text-brown-800 mt-1 flex-shrink-0" />
-                  <p className={`text-gray-700 leading-relaxed ${inter.variable}`}>Expert team of qualified engineers and architects</p>
+                  <p className={`text-gray-700 leading-relaxed`}>Expert team of qualified engineers and architects</p>
                 </li>
                 <li className="flex items-start space-x-4">
                   <ArrowRight className="w-6 h-6 text-brown-800 mt-1 flex-shrink-0" />
-                  <p className={`text-gray-700 leading-relaxed ${inter.variable}`}>Strong focus on customer satisfaction and trust-building</p>
+                  <p className={`text-gray-700 leading-relaxed`}>Strong focus on customer satisfaction and trust-building</p>
                 </li>
                 <li className="flex items-start space-x-4">
                   <ArrowRight className="w-6 h-6 text-brown-800 mt-1 flex-shrink-0" />
-                  <p className={`text-gray-700 leading-relaxed ${inter.variable}`}>Commitment to quality construction and modern amenities</p>
+                  <p className={`text-gray-700 leading-relaxed`}>Commitment to quality construction and modern amenities</p>
                 </li>
               </ul>
             </div>
