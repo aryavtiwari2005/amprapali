@@ -108,6 +108,21 @@ const EditProperty = () => {
         images: ''
     });
 
+    const formatPrice = (price) => {
+        const priceNum = parseFloat(price);
+        
+        if (priceNum >= 10000000) {
+          // Convert to crores
+          return `₹${(priceNum / 10000000).toFixed(2)} Cr`;
+        } else if (priceNum >= 100000) {
+          // Convert to lakhs
+          return `₹${(priceNum / 100000).toFixed(2)} Lakhs`;
+        } else {
+          // Keep as is for smaller amounts
+          return `₹${priceNum.toLocaleString()}`;
+        }
+    };
+
     useEffect(() => {
         const checkUser  = async () => {
             const { data: { user } } = await supabase.auth.getUser ();
@@ -229,7 +244,7 @@ const EditProperty = () => {
                 <div className="bg-white p-4 rounded-lg shadow">
                     <h3 className="text-lg font-semibold">Average Property Price</h3>
                     <p className="text-3xl font-bold text-green-600">
-                        ${(properties.reduce((sum, p) => sum + parseFloat(p.price), 0) / properties.length).toFixed(2)}
+                        {formatPrice((properties.reduce((sum, p) => sum + parseFloat(p.price), 0) / properties.length).toFixed(2))}
                     </p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow">
