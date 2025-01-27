@@ -77,12 +77,11 @@ const Navbar = () => {
             >
               <motion.a
                 href={item.href}
-                className={`flex items-center space-x-2 transition-colors duration-300 font-semibold 
-                  ${isActive(item.href) ? 'text-btn-800' : 'text-gray-600 hover:text-orange-500'}`}
+                className={`flex items-center space-x-2 py-0 transition-colors duration-300 font-semibold
+                  ${isActive(item.href) ? 'border-b-2 border-btn-800' : 'text-gray-600 hover:text-btn-800'}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {item.icon && <item.icon className="w-5 h-5" />}
                 <span>{item.name}</span>
                 {item.dropdown && (
                   <ChevronDown
@@ -128,7 +127,7 @@ const Navbar = () => {
                     <a
                       href={item.href}
                       className={`flex items-center space-x-2 transition-colors duration-300 font-semibold 
-                        ${isActive(item.href) ? 'text-btn-800' : 'text-gray-600 hover:text-orange-500'}`}
+                        ${isActive(item.href) ? 'border-b-2 border-orange-500' : 'text-gray-600 hover:text-orange-500'}`}
                     >
                       {item.icon && <item.icon className="w-5 h-5" />}
                       <span>{item.name}</span>
