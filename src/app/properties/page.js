@@ -10,7 +10,7 @@ import {
   Ruler,
   Star
 } from 'lucide-react';
-import { Inter, Playfair, Roboto } from 'next/font/google';
+import { Inter, Playfair, Roboto, Montserrat } from 'next/font/google';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import PropertyModal from '@/components/PropertyModal';
@@ -19,6 +19,7 @@ import PropertyModal from '@/components/PropertyModal';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', weight: ['300', '400', '600', '700'] });
 const playfair = Playfair({ subsets: ['latin'], variable: '--font-playfair', weight: ['400', '700'] });
 const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
+const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', weight: ['400', '600', '700'] });
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -35,6 +36,21 @@ const PropertiesPage = () => {
     bhk: '',
     location: ''
   });
+
+  const formatPrice = (price) => {
+    const priceNum = parseFloat(price);
+    
+    if (priceNum >= 10000000) {
+      // Convert to crores
+      return `₹${(priceNum / 10000000).toFixed(2)} Cr`;
+    } else if (priceNum >= 100000) {
+      // Convert to lakhs
+      return `₹${(priceNum / 100000).toFixed(2)} Lakhs`;
+    } else {
+      // Keep as is for smaller amounts
+      return `₹${priceNum.toLocaleString()}`;
+    }
+  };
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -103,7 +119,7 @@ const PropertiesPage = () => {
       variants={containerVariants}
       className={`
         min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 
-        ${inter.variable} ${roboto.variable} ${playfair.variable}
+        ${inter.variable} ${roboto.variable} ${playfair.variable} ${montserrat.variable}
         font-sans
       `}
     >
@@ -151,7 +167,7 @@ const PropertiesPage = () => {
         </div>
       </div> */}
 
-      <div className="max-w-7xl mx-auto px-4 py-20">
+      <div className="max-w-7xl mx-auto px-4 py-20 pt-24 font-montserrat">
         {loading ? (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -192,10 +208,10 @@ const PropertiesPage = () => {
                     )}
                   </div>
                   <div className="p-4 md:p-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2 font-roboto">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
                       {property.title}
                     </h2>
-                    <p className="text-sm md:text-base text-gray-600 mb-4 flex items-center font-roboto">
+                    <p className="text-sm md:text-base text-gray-600 mb-4 flex items-center">
                       <MapPin className="w-4 h-4 md:w-5 md:h-5 text-orange-500 mr-2" />
                       {property.location}
                     </p>
@@ -213,8 +229,8 @@ const PropertiesPage = () => {
                       ))}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-lg md:text-2xl font-bold text-gray-800 font-roboto">
-                        {property.price.toLocaleString()}
+                      <span className="text-lg md:text-2xl font-bold text-gray-800 font-montserrat">
+                        {property.price && formatPrice(property.price)}
                       </span>
                       <div className="flex items-center text-yellow-500">
                         <Star className="w-5 h-5" />

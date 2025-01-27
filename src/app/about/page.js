@@ -126,7 +126,7 @@ const PropertyCarousel = () => {
               <MapPin className="w-4 h-4 mr-2" />
               {properties[currentIndex].location}
             </p>
-            <span className="bg-yellow-300 px-3 py-1 rounded-full text-sm">
+            <span className="bg-yellow-300 px-3 py-1 rounded-full text-sm text-black">
               {properties[currentIndex].type}
             </span>
           </div>
@@ -175,10 +175,10 @@ const AboutPage = () => {
         <img src="landing.jpg" alt="Amrapali Landmark Project" className="w-full h-full object-cover" />
         <div className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-16 lg:px-24">
           <div className="max-w-3xl bg-white bg-opacity-30 backdrop-blur-md p-6 rounded-lg border border-gray-200 shadow-lg">
-            <h1 className={`text-5xl md:text-7xl font-bold text-brown-800 mb-8 leading-tight tracking-tight transition-transform duration-500 transform hover:scale-105 font-playfair`}>
+            <h1 className={`text-5xl md:text-7xl font-bold text-brown-800 mb-8 leading-tight tracking-tight transition-transform duration-500 transform hover:scale-105 font-montserrat`}>
               Building <span className="font-bold block">Dreams & Legacies</span>
             </h1>
-            <p className={`text-xl md:text-2xl text-gray-700 mb-12 leading-relaxed font-light tracking-wide font-playfair`}>
+            <p className={`text-xl md:text-2xl text-gray-700 mb-12 leading-relaxed font-light tracking-wide font-inter`}>
               Pioneers in Real Estate Development Since 1998,<br />
               <span className="font-medium">Redefining Luxurious Living Across India</span>
             </p>

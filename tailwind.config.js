@@ -14,6 +14,9 @@ module.exports = {
         brown: {
           800: '#5a3e36', // Example brown shade
         },
+        btn: {
+          800: "#f59e0b"
+        }
       },
       fontFamily: {
         sans: ['var(--font-inter)', ...fontFamily.sans],

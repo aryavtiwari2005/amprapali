@@ -18,8 +18,11 @@ const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
+
+  const [formStatus, setFormStatus] = useState('');
+  const [formError, setFormError] = useState('');
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -46,10 +49,58 @@ const ContactPage = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
+    setFormError(''); // Clear error on input change
+  };
+
+  const validateForm = () => {
+    const { name, email, message } = formData;
+    if (!name) {
+      return 'Name is required.';
+    }
+    if (!email) {
+      return 'Email is required.';
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      return 'Email is invalid.';
+    }
+    if (!message) {
+      return 'Message is required.';
+    }
+    return '';
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const error = validateForm();
+    if (error) {
+      setFormError(error);
+      return;
+    }
+
+    setFormStatus('Reaching out...');
+    try {
+      const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbz1anbCNMT29SAdINnTpCmv2jAMON31bqo1u1IvkFEXr2oSlp1oYWAtCk_OBRV5cBeb/exec',
+        {
+          method: 'POST',
+          body: new FormData(e.target),
+        }
+      );
+
+      if (response.ok) {
+        setFormStatus('Success! Your message has been sent.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setFormStatus('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      setFormStatus('Error: Unable to send your message.');
+    }
   };
 
   return (
@@ -70,19 +121,21 @@ const ContactPage = () => {
       >
         {/* Contact Form Section */}
         <div className="p-6 sm:p-8 md:p-12 font-montserrat order-2 md:order-1">
-          <motion.form 
+          <motion.form
+            onSubmit={handleFormSubmit}
             variants={itemVariants}
             className="space-y-4 sm:space-y-6"
           >
             <div>
-              <label 
-                htmlFor="name" 
+              <label
+                htmlFor="name"
                 className="block text-gray-700 font-semibold mb-2 text-sm sm:text-base"
               >
                 Full Name
               </label>
               <input
                 id="name"
+                name="name"
                 type="text"
                 value={formData.name}
                 onChange={handleInputChange}
@@ -94,14 +147,15 @@ const ContactPage = () => {
             </div>
 
             <div>
-              <label 
-                htmlFor="email" 
+              <label
+                htmlFor="email"
                 className="block text-gray-700 font-semibold mb-2 text-sm sm:text-base"
               >
                 Email Address
               </label>
               <input
                 id="email"
+                name="email"
                 type="email"
                 value={formData.email}
                 onChange={handleInputChange}
@@ -113,14 +167,15 @@ const ContactPage = () => {
             </div>
 
             <div>
-              <label 
-                htmlFor="message" 
+              <label
+                htmlFor="message"
                 className="block text-gray-700 font-semibold mb-2 text-sm sm:text-base"
               >
                 Your Message
               </label>
               <textarea
                 id="message"
+                name="additionalInfo"
                 rows="4"
                 value={formData.message}
                 onChange={handleInputChange}
@@ -131,10 +186,15 @@ const ContactPage = () => {
               />
             </div>
 
+            {formError && (
+              <p className="text-red-500 text-sm">{formError}</p>
+            )}
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
+              name="submitBtn"
               className="w-full bg-gradient-to-r from-orange-500 to-orange-600 
                 text-white py-2 sm:py-3 rounded-lg font-semibold 
                 shadow-lg hover:shadow-xl transition-all 
@@ -144,21 +204,23 @@ const ContactPage = () => {
               <Send className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Send Message</span>
             </motion.button>
+            <p className="text-sm sm:text-base mt-2 text-gray-500">{formStatus}</p>
           </motion.form>
         </div>
 
         {/* Contact Information Section */}
-        <div className="bg-gradient-to-br from-orange-500 to-orange-600 
+        <div
+          className="bg-gradient-to-br from-orange-500 to-orange-600 
           p-6 sm:p-8 md:p-12 text-white flex flex-col justify-center 
           order-1 md:order-2"
         >
-          <motion.h2 
+          <motion.h2
             variants={itemVariants}
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 font-montserrat"
           >
             Get in Touch
           </motion.h2>
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-80 font-montserrat"
           >
@@ -166,21 +228,21 @@ const ContactPage = () => {
           </motion.p>
 
           <div className="space-y-4 sm:space-y-6 font-montserrat">
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex items-center space-x-3 sm:space-x-4"
             >
               <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-white/80" />
               <span className="text-sm sm:text-base">123 Luxury Lane, Sector 45, Gurgaon</span>
             </motion.div>
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex items-center space-x-3 sm:space-x-4"
             >
               <Phone className="w-6 h-6 sm:w-8 sm:h-8 text-white/80" />
               <span className="text-sm sm:text-base">+91 98765 43210</span>
             </motion.div>
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex items-center space-x-3 sm:space-x-4"
             >

@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Bed, Ruler, Star, ChevronLeft, ChevronRight, Phone } from 'lucide-react'; // Import necessary icons
+import { Montserrat } from 'next/font/google';
+
+const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', weight: ['400', '600', '700'] });
 
 const PropertyModal = ({ property, onClose }) => {
   const handleBackdropClick = (e) => {
@@ -37,16 +40,31 @@ const PropertyModal = ({ property, onClose }) => {
     setIsImageViewerOpen(false);
   };
 
+  const formatPrice = (price) => {
+    const priceNum = parseFloat(price);
+    
+    if (priceNum >= 10000000) {
+      // Convert to crores
+      return `₹${(priceNum / 10000000).toFixed(2)} Cr`;
+    } else if (priceNum >= 100000) {
+      // Convert to lakhs
+      return `₹${(priceNum / 100000).toFixed(2)} Lakhs`;
+    } else {
+      // Keep as is for smaller amounts
+      return `₹${priceNum.toLocaleString()}`;
+    }
+  };
+
   return (
     <motion.div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70"
+      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 ${montserrat.variable}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={handleBackdropClick} // Handle backdrop click
     >
       <motion.div
-        className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-11/12 md:w-10/12 lg:w-9/12 max-w-4xl relative overflow-hidden max-h-[80vh] overflow-y-auto" // Adjusted width for responsiveness
+        className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-11/12 md:w-10/12 lg:w-9/12 max-w-4xl relative overflow-hidden max-h-[80vh] overflow-y-auto font-montserrat" // Adjusted width for responsiveness
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         exit={{ scale: 0.9 }}
@@ -114,7 +132,7 @@ const PropertyModal = ({ property, onClose }) => {
         </div>
         <div className="flex justify-between items-center mb-4">
           <span className="text-xl sm:text-2xl font-bold text-gray-800">
-            {property.price.toLocaleString()}
+            {property.price && formatPrice(property.price)}
           </span>
           <div className="flex items-center text-yellow-500">
             <Star className="w-5 h-5" />

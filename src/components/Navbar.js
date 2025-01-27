@@ -11,6 +11,10 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { Inter, Montserrat } from '@next/font/google';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', weight: ['300', '400', '600', '700'] });
+const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', weight: ['400', '600', '700'] });
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -54,14 +58,14 @@ const Navbar = () => {
   const showMobileMenu = isMobile;
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <header className={`fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 ${inter.variable} ${montserrat.variable}`}>
+      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center font-montserrat">
         {/* Logo with smooth animation */}
         <motion.h1
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-2xl font-bold text-gray-800 tracking-wide font-sans"
+          className="text-2xl font-bold text-gray-800 tracking-wide font-montserrat"
         >
           Amrapali
         </motion.h1>
@@ -78,7 +82,7 @@ const Navbar = () => {
               <motion.a
                 href={item.href}
                 className={`flex items-center space-x-2 transition-colors duration-300 font-semibold 
-                  ${isActive(item.href) ? 'text-orange-500' : 'text-gray-600 hover:text-orange-500'}`}
+                  ${isActive(item.href) ? 'text-btn-800' : 'text-gray-600 hover:text-orange-500'}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -128,7 +132,7 @@ const Navbar = () => {
                     <a
                       href={item.href}
                       className={`flex items-center space-x-2 transition-colors duration-300 font-semibold 
-                        ${isActive(item.href) ? 'text-orange-500' : 'text-gray-600 hover:text-orange-500'}`}
+                        ${isActive(item.href) ? 'text-btn-800' : 'text-gray-600 hover:text-orange-500'}`}
                     >
                       {item.icon && <item.icon className="w-5 h-5" />}
                       <span>{item.name}</span>

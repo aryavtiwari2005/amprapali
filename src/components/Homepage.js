@@ -11,7 +11,10 @@ import {
   Bath, 
   Ruler 
 } from 'lucide-react';
-import { Inter, Merriweather, Montserrat, Playfair_Display, Roboto } from 'next/font/google';
+import FeaturedProperties from './FeaturesProperties';
+import { Inter, Merriweather, Montserrat, Playfair_Display, Roboto, Poppins } from 'next/font/google';
+import LatestInsights from './LatestInsights';
+import localFont from 'next/font/local'
 
 // Font configurations
 const inter = Inter({ 
@@ -36,6 +39,12 @@ const playfair = Playfair_Display({
   subsets: ['latin'], 
   variable: '--font-playfair',
   weight: ['400', '700']
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  variable: '--font-poppins',
+  weight: ['400', '500', '700']
 });
 
 const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto', weight: ['400', '500', '700'] });
@@ -69,7 +78,8 @@ const Homepage = () => {
       baths: 2,
       area: "1800 sq.ft",
       price: "₹1.2 Cr",
-      image: "amp-3.webp"
+      image: "amp-3.webp",
+      type: "Residential"
     },
     {
       id: 2,
@@ -79,7 +89,8 @@ const Homepage = () => {
       baths: 3,
       area: "3200 sq.ft",
       price: "₹2.8 Cr",
-      image: "amp-5.png"
+      image: "amp-5.png",
+      type: "Commercial"
     },
     {
       id: 3,
@@ -88,18 +99,9 @@ const Homepage = () => {
       floor: 12,
       area: "5000 sq.ft",
       price: "₹4.5 Cr",
-      image: "amp-4.jpg"
+      image: "amp-4.jpg",
+      type: "Ready to Move In"
     },
-    {
-      id: 4,
-      title: "Penthouse Suite",
-      location: "Sector 128, Noida",
-      beds: 4,
-      baths: 4,
-      area: "4200 sq.ft",
-      price: "₹3.5 Cr",
-      image: "amp-6.jpg"
-    }
   ];
 
   // Auto-slide effect for carousel
@@ -166,6 +168,7 @@ const Homepage = () => {
         min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 
         ${inter.variable} ${merriweather.variable} 
         ${montserrat.variable} ${playfair.variable}
+        ${roboto.variable} ${poppins.variable}
         font-sans
       `}
     >
@@ -193,7 +196,7 @@ const Homepage = () => {
           <motion.h1 
             variants={itemVariants}
             className="
-              text-4xl md:text-5xl lg:text-7xl font-playfair font-bold mb-6 
+              text-4xl md:text-5xl lg:text-7xl font-montserrat font-bold mb-6 
               leading-tight text-transparent bg-clip-text 
               bg-gradient-to-r from-white to-gray-300
             "
@@ -214,7 +217,7 @@ const Homepage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="
-              px-8 py-3 md:px-12 md:py-4 bg-gradient-to-r from-orange-500 to-red-600 
+              px-8 py-3 md:px-12 md:py-4 bg-btn-800 
               text-white rounded-full text-lg font-montserrat 
               font-semibold shadow-2xl hover:shadow-orange-500/50 
               transition-all duration-300
@@ -226,173 +229,67 @@ const Homepage = () => {
         </div>
       </motion.section>
 
-      {/* Featured Properties Section */}
-      <motion.section 
-        variants={itemVariants}
-        className="max-w-7xl mx-auto py-20 px-6"
-      >
-        <div className="text-center mb-16">
-          <motion.h2 
-            variants={itemVariants}
-            className="
-              text-4xl md:text-5xl font-roboto font-bold mb-4 
-              text-gray-800 tracking-tight
-            "
-          >
-            Featured Properties
-          </motion.h2>
-          <motion.p 
-            variants={itemVariants}
-            className="
-              text-lg md:text-xl text-gray-600 max-w-2xl mx-auto 
-              font-merriweather
-            "
-          >
-            Meticulously curated properties that redefine modern living
-          </motion.p>
-        </div>
+      <FeaturedProperties properties={properties} />
 
-        <div className="relative group">
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={activeSlide}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ 
-                duration: 0.5,
-                type: "tween"
-              }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-10"
-            >
-              {properties.slice(activeSlide * 2, activeSlide * 2 + 2).map(property => (
-                <motion.div 
-                  key={property.id}
-                  whileHover={{ 
-                    scale: 1.03,
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
-                  }}
-                  className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 transform transition-all duration-300"
-                >
-                  <div className="relative">
-                    <img 
-                      src={property.image} 
-                      alt={property.title} 
-                      className="w-full h-80 object-cover"
-                    />
-                    <div className="absolute top-6 right-6 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold">
-                      {property.price}
-                    </div>
-                  </div>
-                  <div className="p-6 md:p-8">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-xl md:text-3xl font-roboto font-bold text-gray-800">{property.title}</h3>
-                      <div className="flex items-center text-yellow-500">
-                        <span className="font-bold">4.8</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center text-gray-600 mb-6">
-                      <MapPin className="mr-3 w-6 h-6 text-orange-500" />
-                      <span className="text-lg">{property.location}</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-4 mb-8 text-center">
-                      {property.beds && (
-                        <div className="bg-gray-50 p-3 rounded-xl">
-                          <Bed className="mx-auto mb-2 w-6 h-6 text-orange-500" />
-                          <span className="text-sm font-medium">{property.beds} Beds</span>
-                        </div>
-                      )}
-                      {property.baths && (
-                        <div className="bg-gray-50 p-3 rounded-xl">
-                          <Bath className="mx-auto mb-2 w-6 h-6 text-orange-500" />
-                          <span className="text-sm font-medium ">{property.baths} Baths</span>
-                        </div>
-                      )}
-                      <div className="bg-gray-50 p-3 rounded-xl">
-                        <Ruler className="mx-auto mb-2 w-6 h-6 text-orange-500" />
-                        <span className="text-sm font-medium">{property.area}</span>
-                      </div>
-                    </div>
-                    
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-full font-semibold transition-all duration-300"
-                      onClick={() => window.location.href = '/properties'} // Redirect to properties page
-                    >
-                      View Details
-                    </motion.button>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence> 
-
-          <motion.button 
-            whileHover={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)" }} // Change shadow on hover
-            onClick={() => setActiveSlide(prev => prev === 0 ? Math.ceil(properties.length / 2) - 1 : prev - 1)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white shadow-lg rounded-full p-3"
-            style={{ width: '50px', height: '50px', transformOrigin: 'center' }} // Fixed size and center origin
-          >
-            <ArrowLeft className="h-6 w-6 text-gray-700" />
-          </motion.button>
-          <motion.button 
-            whileHover={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)" }} // Change shadow on hover
-            onClick={() => setActiveSlide(prev => prev >= Math.ceil(properties.length / 2) - 1 ? 0 : prev + 1)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white shadow-lg rounded-full p-3"
-            style={{ width: '50px', height: '50px', transformOrigin: 'center' }} // Fixed size and center origin
-          >
-            <ArrowRight className="h-6 w-6 text-gray-700" />
-          </motion.button>
-        </div>
-      </motion.section>
-
-      {/* Under Development Projects */}
       <motion.section
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        viewport={{ once: true }} className="max-w-7xl mx-auto py-20 px-6"
+        viewport={{ once: true }}
+        className="max-w-7xl mx-auto py-12 px-6"
       >
-        <div className="text-center mb-16">
-          <motion.h2 
-            variants={itemVariants}
-            className="text-4xl md:text-5xl font-roboto font-bold mb-4 text-gray-800 tracking-tight"
-          >
-            Under Development Projects
+        <div className="text-center mb-16 font-roboto">
+          <motion.h2 className="text-4xl md:text-5xl font-roboto font-bold mb-4 
+              text-gray-800 tracking-tight">
+            Our Projects
           </motion.h2>
-          <motion.p 
-            variants={itemVariants}
-            className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto"
-          >
-            Get a sneak peek at our upcoming projects
+          <motion.p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto 
+              font-merriweather">
+            Discover our latest residential and commercial projects
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {underDevelopmentProjects.map(project => (
-            <motion.div 
-              key={project.id}
-              whileHover={{ scale: 1.05 }}
-              className="bg-white rounded-3xl shadow-xl overflow-hidden transform transition-all duration-300"
-            >
-              <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-2xl md:text-3xl font-roboto font-bold mb-2 text-gray-800">{project.title}</h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-orange-500 font-medium"
-                >
-                  Read More →
-                </motion.button>
-              </div>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <motion.div className="relative overflow-hidden rounded-lg">
+            <img 
+              src="/amp-landing.jpg" 
+              alt="Amrapali Eden Park" 
+              className="w-full h-[400px] object-cover"
+            />
+            <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/50 to-transparent">
+              <h3 className="text-white text-2xl font-bold mb-2">
+                Amrapali Eden Park
+              </h3>
+              <p className="text-white mb-4">
+                Sector 50, Noida
+              </p>
+              <button className="bg-white text-black px-6 py-2 rounded-full" onClick={() => {window.location.href = "/projects"}}>
+                Learn More
+              </button>
+            </div>
+          </motion.div>
+
+          <motion.div className="relative overflow-hidden rounded-lg">
+            <img 
+              src="/amp-tech.jpg" 
+              alt="Amrapali Tech Park" 
+              className="w-full h-[400px] object-cover"
+            />
+            <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/50 to-transparent">
+              <h3 className="text-white text-2xl font-bold mb-2">
+                Amrapali Tech Park
+              </h3>
+              <p className="text-white mb-4">
+                Sector 62, Noida
+              </p>
+              <button className="bg-white text-black px-6 py-2 rounded-full" onClick={() => {window.location.href = "/projects"}}>
+                Learn More
+              </button>
+            </div>
+          </motion.div>
         </div>
       </motion.section>
+      <LatestInsights />
     </motion.div>
   );
 };
