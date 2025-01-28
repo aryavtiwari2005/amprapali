@@ -150,14 +150,6 @@ const FeaturedProperties = () => {
                   <span className="text-xs font-medium">{property.area}</span>
                 </div>
               </div>
-              
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full bg-btn-800 text-white py-2 rounded-full font-semibold transition-all duration-300"
-              >
-                View Details
-              </motion.button>
             </div>
           </motion.div>
         ))}
