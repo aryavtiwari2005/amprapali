@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { inter, montserrat, roboto, playfair, merriweather, poppins } from "@/utils/fonts";
+import { inter, montserrat, roboto, playfair, merriweather, poppins, dm_sans } from "@/utils/fonts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
         ${montserrat.variable}
         ${merriweather.variable}
         ${poppins.variable}
+        ${dm_sans.variable}
         antialiased`}
       >
         {children}

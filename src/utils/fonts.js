@@ -1,5 +1,5 @@
 // lib/fonts.js
-import { Inter, Playfair_Display, Roboto, Montserrat, Merriweather, Poppins } from 'next/font/google'
+import { Inter, Playfair_Display, Roboto, Montserrat, Merriweather, Poppins, DM_Sans } from 'next/font/google'
 
 export const inter = Inter({ 
   subsets: ['latin'], 
@@ -41,4 +41,11 @@ export const poppins = Poppins({
   display: 'swap',
   variable: '--font-poppins',
   weight: ['400', '600', '700']
+})
+
+export const dm_sans = DM_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-dmsans',
+  weight: ['400', '600', '700', '800', '900']
 })

@@ -21,6 +21,7 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-inter)', ...fontFamily.sans],
         merriweather: ['var(--font-merriweather)', ...fontFamily.serif],
+        dmsans: ['var(--font-dmsans)', 'sans-serif', ...fontFamily.serif],
         montserrat: ['var(--font-montserrat)', ...fontFamily.sans],
         playfair: ['var(--font-playfair)', ...fontFamily.serif],
         roboto: ['var(--font-roboto)', ...fontFamily.sans],
