@@ -1,29 +1,12 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+"use client";
+import React, { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/utils/supabaseClient';
 import { useRouter } from 'next/navigation';
-import { 
-    Chart as ChartJS, 
-    CategoryScale, 
-    LinearScale, 
-    BarElement, 
-    Title, 
-    Tooltip, 
-    Legend,
-    ArcElement 
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 
 // Register Chart.js components
-ChartJS.register(
-    CategoryScale, 
-    LinearScale, 
-    BarElement, 
-    Title, 
-    Tooltip, 
-    Legend,
-    ArcElement
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const PropertyAnalytics = ({ properties }) => {
     // Property Type Distribution
@@ -105,21 +88,21 @@ const EditProperty = () => {
         type: '',
         description: '',
         contact: '',
-        images: ''
+        images: []
     });
+    const [imageFiles, setImageFiles] = useState([]);
+    const [isUploading, setIsUploading] = useState(false);
+    const fileInputRef = useRef(null);
 
     const formatPrice = (price) => {
         const priceNum = parseFloat(price);
         
         if (priceNum >= 10000000) {
-          // Convert to crores
-          return `₹${(priceNum / 10000000).toFixed(2)} Cr`;
+            return `₹${(priceNum / 10000000).toFixed(2)} Cr`;
         } else if (priceNum >= 100000) {
-          // Convert to lakhs
-          return `₹${(priceNum / 100000).toFixed(2)} Lakhs`;
+            return `₹${(priceNum / 100000).toFixed(2)} Lakhs`;
         } else {
-          // Keep as is for smaller amounts
-          return `₹${priceNum.toLocaleString()}`;
+            return `₹${priceNum.toLocaleString()}`;
         }
     };
 
@@ -159,17 +142,60 @@ const EditProperty = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleImageChange = (e) => {
+        setImageFiles(Array.from(e.target.files));
+    };
+
+    const sanitizeFileName = (fileName) => {
+        return fileName.replace(/[^a-zA-Z0-9.-]/g, '_'); // Replace invalid characters with underscores
+    };
+
+    const uploadImages = async () => {
+        setIsUploading(true);
+        const imageUrls = [];
+        try {
+            for (const file of imageFiles) {
+                const sanitizedFileName = sanitizeFileName(file.name); // Sanitize the file name
+                console.log('Uploading file:', sanitizedFileName); // Log the sanitized file name
+                const { data, error } = await supabase.storage
+                    .from('property-images')
+                    .upload(`public/${sanitizedFileName}`, file, {
+                        cacheControl: '3600',
+                        upsert: true // Overwrite if the file already exists
+                    });
+
+                if (error) {
+                    console.error('Error uploading image:', error.message); // Log the error message
+                    return; // Exit the function if there's an error
+                }
+
+                const publicURL = supabase.storage.from('property-images').getPublicUrl(data.path).data.publicUrl;
+                console.log('Public URL:', publicURL); // Log the public URL
+                imageUrls.push(publicURL); // Push the public URL to the array
+            }
+            return imageUrls;
+        } catch (error) {
+            console.error('Upload failed:', error);
+            return [];
+        } finally {
+            setIsUploading(false);
+            // Clear the file input
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+            setImageFiles([]);
+        }
+    };
+
+    const handleAddProperty = async (e) => {
         e.preventDefault();
-        const updatedData = {
+        const uploadedImageUrls = await uploadImages();
+        const newProperty = {
             ...formData,
             contact: formData.contact.split(',').map(item => item.trim()),
-            images: formData.images.split(',').map(item => item.trim())
+            images: uploadedImageUrls // Use uploaded image URLs
         };
-        const { error } = await supabase
-            .from('properties')
-            .update(updatedData)
-            .eq('id', selectedProperty.id);
+        const { error } = await supabase.from('properties').insert([newProperty]);
         if (error) console.error(error);
         else {
             fetchProperties();
@@ -177,14 +203,18 @@ const EditProperty = () => {
         }
     };
 
-    const handleAddProperty = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newProperty = {
+        const uploadedImageUrls = await uploadImages();
+        const updatedData = {
             ...formData,
             contact: formData.contact.split(',').map(item => item.trim()),
-            images: formData.images.split(',').map(item => item.trim())
+            images: uploadedImageUrls // Use uploaded image URLs
         };
-        const { error } = await supabase.from('properties').insert([newProperty]);
+        const { error } = await supabase
+            .from('properties')
+            .update(updatedData)
+            .eq('id', selectedProperty.id);
         if (error) console.error(error);
         else {
             fetchProperties();
@@ -211,8 +241,9 @@ const EditProperty = () => {
             type: '',
             description: '',
             contact: '',
-            images: ''
+            images: []
         });
+        setImageFiles([]);
     };
 
     const handleLogout = async () => {
@@ -257,33 +288,33 @@ const EditProperty = () => {
                 </div>
             </div>
 
-          <div className="container mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Edit Properties</h1>
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Available Properties</h2>
-                <ul className="space-y-2">
-                    {properties.map(property => (
-                        <li key={property.id} className="flex justify-between items-center p-4 border rounded-lg shadow hover:shadow-lg transition">
-                            <span className="text-lg">{property.title}</span>
-                            <div>
-                                <button
-                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition mr-2"
-                                    onClick={() => handleEdit(property)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                                    onClick={() => handleDelete(property.id)}
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+            <div className="container mx-auto p-6">
+                <h1 className="text-3xl font-bold mb-6">Edit Properties</h1>
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-2">Available Properties</h2>
+                    <ul className="space-y-2">
+                        {properties.map(property => (
+                            <li key={property.id} className="flex justify-between items-center p-4 border rounded-lg shadow hover:shadow-lg transition">
+                                <span className="text-lg">{property.title}</span>
+                                <div>
+                                    <button
+                                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition mr-2"
+                                        onClick={() => handleEdit(property)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                                        onClick={() => handleDelete(property.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-        </div>
 
             <form className="bg-white p-6 rounded-lg shadow-md" onSubmit={selectedProperty ? handleSubmit : handleAddProperty}>
                 <h2 className="text-xl font-semibold mb-4">{selectedProperty ? `Edit Property: ${formData.title}` : 'Add New Property'}</h2>
@@ -296,7 +327,7 @@ const EditProperty = () => {
                                 value={formData[key]}
                                 onChange={handleChange}
                                 placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                                required={key !== 'description'}
+                                required={key !== 'description' || key !== 'contact'}
                                 className="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         ) : (
@@ -311,9 +342,23 @@ const EditProperty = () => {
                         )
                     ))}
                 </div>
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    onChange={handleImageChange}
+                    className="mt-4 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {isUploading && (
+                    <div className="flex items-center justify-center mt-4">
+                        <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-blue-500"></div>
+                        <span className="ml-2 text-blue-500">Uploading images...</span>
+                    </div>
+                )}
                 <button
                     type="submit"
-                    className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+                    disabled={isUploading}
+                    className={`mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     {selectedProperty ? 'Update Property' : 'Add Property'}
                 </button>

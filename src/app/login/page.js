@@ -14,7 +14,7 @@ const Login = () => {
         const checkUser = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             if (user) {
-                router.push('/admin');
+                router.prefetch('/admin');
             } else {
                 setUser(user);
             }
