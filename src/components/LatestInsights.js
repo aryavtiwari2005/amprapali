@@ -7,20 +7,20 @@ const LatestInsights = () => {
   const insights = [
     {
       id: 1,
-      title: "Top Locations to Invest in 2025",
-      description: "Discover the most promising areas for real estate investment in NCR...",
+      title: "Amrapali Zodiac",
+      description: "Discover the latest amenities and features in our upcoming project...",
       image: "/amp-leisure.jpg",
     },
     {
       id: 2,
-      title: "Sustainable Living Trends",
-      description: "Explore how sustainable features are shaping modern residential projects...",
+      title: "Amrapali Silicon City",
+      description: "Explore the latest construction updates and project details...",
       image: "/amp-silicon.webp",
     },
     {
       id: 3,
-      title: "Smart Homes: The Future",
-      description: "Learn about the latest smart home technologies in our properties...",
+      title: "Amrapali Dream Valley",
+      description: "Get the latest insights on the upcoming project in Noida Extension...",
       image: "/amp-dream.webp",
     }
   ];
@@ -39,7 +39,7 @@ const LatestInsights = () => {
         <motion.h2 
           className="text-5xl font-bold mb-2 font-roboto tracking-tight text-gray-900"
         >
-          Latest Insights
+          Under Construction Projects
         </motion.h2>
         <motion.p 
           className="text-lg md:text-xl text-gray-600 font-playfair"
