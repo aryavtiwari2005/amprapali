@@ -99,21 +99,21 @@ const ProjectsPage = () => {
         <h2 className="text-3xl font-bold text-center mb-8 font-poppins">Our Projects</h2>
         
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {['Residential', 'Commercial', 'Under-Construction'].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-2 rounded-md transition-colors font-medium ${
-                activeFilter === filter
-                  ? 'bg-orange-400 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-              style={{ fontFamily: 'var(--font-montserrat)' }}
-            >
-              {filter}
-            </button>
-          ))}
+        <div className='flex justify-center'>
+          <div className="flex w-full mb-12 max-w-2xl border border-gray-200 rounded-full overflow-hidden">
+            {['Residential', 'Commercial', 'Under-Construction', 'Ready to Move In'].map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`flex-1 py-3 text-base font-medium font-montserrat transition-colors
+                  ${activeFilter === filter 
+                    ? 'bg-orange-400 text-white' 
+                    : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Projects Grid */}
