@@ -1,18 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabaseClient';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowRight, 
-  ArrowLeft, 
-  MapPin, 
-  Bed, 
-  Bath, 
-  Ruler 
-} from 'lucide-react';
-import FeaturedProperties from './FeaturesProperties';
-import LatestInsights from './LatestInsights';
+import React, { useState, useEffect } from "react";
+import { supabase } from "@/utils/supabaseClient";
+import { motion, AnimatePresence } from "framer-motion";
+import FeaturedProperties from "./FeaturesProperties";
+import LatestInsights from "./LatestInsights";
 
 const Homepage = () => {
   const [properties, setProperties] = useState([]);
@@ -21,11 +13,11 @@ const Homepage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       const { data, error } = await supabase
-        .from('properties') // Replace with your actual table name
-        .select('*');
+        .from("properties") // Replace with your actual table name
+        .select("*");
 
       if (error) {
-        console.error('Error fetching properties:', error);
+        console.error("Error fetching properties:", error);
       } else {
         setProperties(data);
       }
@@ -44,7 +36,7 @@ const Homepage = () => {
       area: "1800 sq.ft",
       price: "₹1.2 Cr",
       image: "amp-3.webp",
-      type: "Residential"
+      type: "Residential",
     },
     {
       id: 2,
@@ -55,7 +47,7 @@ const Homepage = () => {
       area: "3200 sq.ft",
       price: "₹2.8 Cr",
       image: "amp-5.png",
-      type: "Commercial"
+      type: "Commercial",
     },
     {
       id: 3,
@@ -65,14 +57,14 @@ const Homepage = () => {
       area: "5000 sq.ft",
       price: "₹4.5 Cr",
       image: "amp-4.jpg",
-      type: "Ready to Move In"
+      type: "Ready to Move In",
     },
   ];
 
   // Auto-slide effect for carousel
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveSlide((prev) => 
+      setActiveSlide((prev) =>
         prev >= Math.ceil(featuredProperties.length / 2) - 1 ? 0 : prev + 1
       );
     }, 10000);
@@ -83,49 +75,52 @@ const Homepage = () => {
     {
       id: 1,
       title: "Amrapali Silicon City",
-      description: "Luxury apartments with modern amenities in the heart of Noida. Completion expected by 2026...",
-      image: "amp-silicon.webp"
+      description:
+        "Luxury apartments with modern amenities in the heart of Noida. Completion expected by 2026...",
+      image: "amp-silicon.webp",
     },
     {
       id: 2,
       title: "Amrapali Leisure Valley",
-      description: "Premium villas with world-class facilities in Greater Noida. Ready for possession by 2025...",
-      image: "amp-leisure.jpg"
+      description:
+        "Premium villas with world-class facilities in Greater Noida. Ready for possession by 2025...",
+      image: "amp-leisure.jpg",
     },
     {
       id: 3,
       title: "Amrapali Dream Valley",
-      description: "Contemporary apartments with smart home features. Phase 1 completion by late 2025...",
-      image: "amp-dream.webp"
-    }
+      description:
+        "Contemporary apartments with smart home features. Phase 1 completion by late 2025...",
+      image: "amp-dream.webp",
+    },
   ];
 
   // Variants for consistent animations
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.3,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { y: 50, opacity: 0 },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 100
-      }
-    }
+        stiffness: 100,
+      },
+    },
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -135,27 +130,27 @@ const Homepage = () => {
       `}
     >
       {/* Hero Section */}
-      <motion.section 
+      <motion.section
         variants={itemVariants}
         className="relative h-screen flex items-center justify-center overflow-hidden"
       >
         <div className="absolute inset-0 z-0">
-          <motion.img 
+          <motion.img
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
-            transition={{ 
-              duration: 1.5, 
-              ease: "easeOut" 
+            transition={{
+              duration: 1.5,
+              ease: "easeOut",
             }}
-            src="amp-landing-2.webp" 
-            alt="Modern building exterior" 
+            src="amp-landing-2.webp"
+            alt="Modern building exterior"
             className="w-full h-full object-cover opacity-70"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-4xl text-center text-white px-6">
-          <motion.h1 
+          <motion.h1
             variants={itemVariants}
             className="
               text-4xl md:text-5xl lg:text-7xl font-montserrat font-bold mb-6 
@@ -165,15 +160,6 @@ const Homepage = () => {
           >
             Elevate Your Living Experience
           </motion.h1>
-          <motion.p 
-            variants={itemVariants}
-            className="
-              text-lg md:text-2xl mb-12 font-robot font-light 
-              text-gray-200 max-w-2xl mx-auto
-            "
-          >
-            Discover extraordinary spaces where luxury meets innovation, crafted with unparalleled precision
-          </motion.p>
           <motion.button
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
@@ -184,14 +170,12 @@ const Homepage = () => {
               font-semibold shadow-2xl hover:shadow-orange-500/50 
               transition-all duration-300
             "
-            onClick={() => window.location.href = '/properties'}
+            onClick={() => (window.location.href = "/properties")}
           >
             Explore Properties
           </motion.button>
         </div>
       </motion.section>
-
-      <FeaturedProperties properties={properties} />
 
       <motion.section
         initial={{ opacity: 0, y: 50 }}
@@ -200,57 +184,63 @@ const Homepage = () => {
         viewport={{ once: true }}
         className="max-w-7xl mx-auto py-12 px-6"
       >
-        <div className="text-center mb-16 font-roboto">
-          <motion.h2 className="text-4xl md:text-5xl font-roboto font-bold mb-4 
-              text-gray-800 tracking-tight">
+        <div className="text-center mb-10 font-roboto">
+          <motion.h2
+            className="text-4xl font-roboto font-bold mb-4 
+              text-gray-800 tracking-tight"
+          >
             Our Projects
           </motion.h2>
-          <motion.p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto 
-              font-merriweather">
-            Discover our latest residential and commercial projects
-          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <motion.div className="relative overflow-hidden rounded-lg">
-            <img 
-              src="/amp-landing.jpg" 
-              alt="Amrapali Eden Park" 
+            <img
+              src="/amp-landing.jpg"
+              alt="Amrapali Eden Park"
               className="w-full h-[400px] object-cover"
             />
             <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/50 to-transparent">
               <h3 className="text-white text-2xl font-bold mb-2">
                 Amrapali Eden Park
               </h3>
-              <p className="text-white mb-4">
-                Sector 50, Noida
-              </p>
-              <button className="bg-white text-black px-6 py-2 rounded-full" onClick={() => {window.location.href = "/projects"}}>
+              <p className="text-white mb-4">Sector 50, Noida</p>
+              <button
+                className="bg-white text-black px-6 py-2 rounded-full"
+                onClick={() => {
+                  window.location.href = "/projects";
+                }}
+              >
                 Learn More
               </button>
             </div>
           </motion.div>
 
           <motion.div className="relative overflow-hidden rounded-lg">
-            <img 
-              src="/amp-tech.jpg" 
-              alt="Amrapali Tech Park" 
+            <img
+              src="/amp-tech.jpg"
+              alt="Amrapali Tech Park"
               className="w-full h-[400px] object-cover"
             />
             <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/50 to-transparent">
               <h3 className="text-white text-2xl font-bold mb-2">
                 Amrapali Tech Park
               </h3>
-              <p className="text-white mb-4">
-                Sector 62, Noida
-              </p>
-              <button className="bg-white text-black px-6 py-2 rounded-full" onClick={() => {window.location.href = "/projects"}}>
+              <p className="text-white mb-4">Sector 62, Noida</p>
+              <button
+                className="bg-white text-black px-6 py-2 rounded-full"
+                onClick={() => {
+                  window.location.href = "/projects";
+                }}
+              >
                 Learn More
               </button>
             </div>
           </motion.div>
         </div>
       </motion.section>
+
+      <FeaturedProperties properties={properties} />
       <LatestInsights />
     </motion.div>
   );

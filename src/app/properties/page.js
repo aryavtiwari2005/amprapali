@@ -1,18 +1,12 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  MapPin,
-  Bed,
-  Bath,
-  Ruler,
-  Star
-} from 'lucide-react';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
-import PropertyModal from '@/components/PropertyModal';
+import React, { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, Bed, Bath, Ruler, Star } from "lucide-react";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import PropertyModal from "@/components/PropertyModal";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -24,15 +18,15 @@ const PropertiesPage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [filters, setFilters] = useState({
-    minPrice: '',
-    maxPrice: '',
-    bhk: '',
-    location: ''
+    minPrice: "",
+    maxPrice: "",
+    bhk: "",
+    location: "",
   });
 
   const formatPrice = (price) => {
     const priceNum = parseFloat(price);
-    
+
     if (priceNum >= 10000000) {
       // Convert to crores
       return `₹${(priceNum / 10000000).toFixed(2)} Cr`;
@@ -48,9 +42,7 @@ const PropertiesPage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const { data, error } = await supabase
-          .from('properties')
-          .select('*');
+        const { data, error } = await supabase.from("properties").select("*");
 
         if (error) {
           throw error;
@@ -58,7 +50,7 @@ const PropertiesPage = () => {
 
         setProperties(data);
       } catch (err) {
-        console.error('Error fetching properties:', err);
+        console.error("Error fetching properties:", err);
       } finally {
         setLoading(false);
       }
@@ -68,11 +60,14 @@ const PropertiesPage = () => {
   }, []);
 
   // Filter properties based on user input
-  const filteredProperties = properties.filter(property => {
-    const meetsMinPrice = !filters.minPrice || property.price >= parseFloat(filters.minPrice);
-    const meetsMaxPrice = !filters.maxPrice || property.price <= parseFloat(filters.maxPrice);
+  const filteredProperties = properties.filter((property) => {
+    const meetsMinPrice =
+      !filters.minPrice || property.price >= parseFloat(filters.minPrice);
+    const meetsMaxPrice =
+      !filters.maxPrice || property.price <= parseFloat(filters.maxPrice);
     const meetsBHK = !filters.bhk || property.beds === parseInt(filters.bhk);
-    const meetsLocation = !filters.location || 
+    const meetsLocation =
+      !filters.location ||
       property.location.toLowerCase().includes(filters.location.toLowerCase());
 
     return meetsMinPrice && meetsMaxPrice && meetsBHK && meetsLocation;
@@ -88,25 +83,25 @@ const PropertiesPage = () => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.3,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -116,52 +111,10 @@ const PropertiesPage = () => {
       `}
     >
       <Navbar />
-      
-      {/* Responsive Filter Section
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <input
-            type="text"
-            name="location"
-            placeholder="Location"
-            value={filters.location}
-            onChange={handleFilterChange}
-            className="w-full p-2 border rounded-lg"
-          />
-          <select
-            name="bhk"
-            value={filters.bhk}
-            onChange={handleFilterChange}
-            className="w-full p-2 border rounded-lg"
-          >
-            <option value="">All BHK</option>
-            <option value="1">1 BHK</option>
-            <option value="2">2 BHK</option>
-            <option value="3">3 BHK</option>
-            <option value="4">4 BHK</option>
-          </select>
-          <input
-            type="number"
-            name="minPrice"
-            placeholder="Min Price"
-            value={filters.minPrice}
-            onChange={handleFilterChange}
-            className="w-full p-2 border rounded-lg"
-          />
-          <input
-            type="number"
-            name="maxPrice"
-            placeholder="Max Price"
-            value={filters.maxPrice}
-            onChange={handleFilterChange}
-            className="w-full p-2 border rounded-lg"
-          />
-        </div>
-      </div> */}
 
       <div className="max-w-7xl mx-auto px-4 py-20 pt-24 font-montserrat">
         {loading ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -180,9 +133,9 @@ const PropertiesPage = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4 }}
-                  whileHover={{ 
-                    scale: 1.05, 
-                    boxShadow: "0 15px 25px rgba(0, 0, 0, 0.2)" 
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 15px 25px rgba(0, 0, 0, 0.2)",
                   }}
                   className="bg-white rounded-2xl shadow-lg overflow-hidden relative cursor-pointer"
                 >
@@ -198,6 +151,11 @@ const PropertiesPage = () => {
                         <p className="text-gray-600">No image available</p>
                       </div>
                     )}
+                    {/* Type label */}
+                    <div className="absolute top-3 right-3 bg-btn-800 text-white text-xs font-semibold px-2 py-1 rounded">
+                      {property.type}{" "}
+                      {/* Assuming property.type contains the type of the property */}
+                    </div>
                   </div>
                   <div className="p-4 md:p-6">
                     <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
@@ -209,10 +167,13 @@ const PropertiesPage = () => {
                     </p>
                     <div className="grid grid-cols-2 gap-3 mb-4 text-center">
                       {[
-                        { icon: Bed, value: property.beds, label: 'BHK' },
-                        { icon: Ruler, value: property.area, label: 'Area' }
+                        { icon: Bed, value: property.beds, label: "BHK" },
+                        { icon: Ruler, value: property.area, label: "Area" },
                       ].map((item, index) => (
-                        <div key={index} className="bg-orange-50 p-2 rounded-lg">
+                        <div
+                          key={index}
+                          className="bg-orange-50 p-2 rounded-lg"
+                        >
                           <item.icon className="w-5 h-5 text-orange-500 mx-auto" />
                           <p className="text-sm text-gray-700 mt-1">
                             {item.value} {item.label}
@@ -226,7 +187,9 @@ const PropertiesPage = () => {
                       </span>
                       <div className="flex items-center text-yellow-500">
                         <Star className="w-5 h-5" />
-                        <span className="ml-1 font-semibold">{property.rating}</span>
+                        <span className="ml-1 font-semibold">
+                          {property.rating}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -236,16 +199,18 @@ const PropertiesPage = () => {
           </div>
         ) : (
           <div className="text-center py-8">
-            <p className="text-lg text-gray-600">No properties found matching your criteria.</p>
+            <p className="text-lg text-gray-600">
+              No properties found matching your criteria.
+            </p>
           </div>
         )}
       </div>
       <Footer />
       <AnimatePresence>
         {selectedProperty && (
-          <PropertyModal 
-            property={selectedProperty} 
-            onClose={handleCloseModal} 
+          <PropertyModal
+            property={selectedProperty}
+            onClose={handleCloseModal}
           />
         )}
       </AnimatePresence>
