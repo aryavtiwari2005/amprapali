@@ -1,40 +1,32 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Bed, Bath, Ruler, Star } from "lucide-react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import PropertyModal from "@/components/PropertyModal";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { useRouter } from "next/navigation";
+import { supabase } from "@/utils/supabaseClient";
 
 const PropertiesPage = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedProperty, setSelectedProperty] = useState(null);
   const [filters, setFilters] = useState({
     minPrice: "",
     maxPrice: "",
     bhk: "",
     location: "",
   });
+  const router = useRouter();
 
   const formatPrice = (price) => {
     const priceNum = parseFloat(price);
 
     if (priceNum >= 10000000) {
-      // Convert to crores
       return `₹${(priceNum / 10000000).toFixed(2)} Cr`;
     } else if (priceNum >= 100000) {
-      // Convert to lakhs
       return `₹${(priceNum / 100000).toFixed(2)} Lakhs`;
     } else {
-      // Keep as is for smaller amounts
       return `₹${priceNum.toLocaleString()}`;
     }
   };
@@ -74,11 +66,15 @@ const PropertiesPage = () => {
   });
 
   const handlePropertyClick = (property) => {
-    setSelectedProperty(property);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedProperty(null);
+    if (property.link) {
+      // If it's an external link, navigate to it in a new tab
+      if (property.link.startsWith("http")) {
+        window.open(property.link, "_blank");
+      } else {
+        // If it's an internal link, use the router
+        router.push(`/properties/${property.link}`);
+      }
+    }
   };
 
   const handleFilterChange = (e) => {
@@ -151,10 +147,8 @@ const PropertiesPage = () => {
                         <p className="text-gray-600">No image available</p>
                       </div>
                     )}
-                    {/* Type label */}
                     <div className="absolute top-3 right-3 bg-btn-800 text-white text-xs font-semibold px-2 py-1 rounded">
-                      {property.type}{" "}
-                      {/* Assuming property.type contains the type of the property */}
+                      {property.type}
                     </div>
                   </div>
                   <div className="p-4 md:p-6">
@@ -206,14 +200,6 @@ const PropertiesPage = () => {
         )}
       </div>
       <Footer />
-      <AnimatePresence>
-        {selectedProperty && (
-          <PropertyModal
-            property={selectedProperty}
-            onClose={handleCloseModal}
-          />
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 };

@@ -1,10 +1,14 @@
-"use client";
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Bed, Bath, Ruler } from "lucide-react";
 import { supabase } from "@/utils/supabaseClient";
 
-const FeaturedProperties = () => {
+const FeaturedProperties = ({
+  tableName = "projects",
+  heading = "Ready to Move In Projects",
+  buttonText = "View All Projects",
+  buttonLink = "/projects",
+}) => {
   const [featuredProperties, setFeaturedProperties] = useState([]);
   const carouselRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -24,20 +28,28 @@ const FeaturedProperties = () => {
 
   useEffect(() => {
     const fetchProperties = async () => {
-      const { data, error } = await supabase
-        .from("properties")
-        .select("*")
-        .limit(6);
+      let data, error;
+
+      if (tableName === "projects") {
+        ({ data, error } = await supabase
+          .from(tableName)
+          .select("*")
+          .eq("type", "Ready to Move in"));
+      } else if (tableName === "properties") {
+        ({ data, error } = await supabase.from(tableName).select("*"));
+      } else {
+        ({ data, error } = await supabase.from(tableName).select("*"));
+      }
 
       if (error) {
-        console.error("Error fetching properties:", error);
+        console.error("Error fetching data:", error);
       } else {
         setFeaturedProperties(data);
       }
     };
 
     fetchProperties();
-  }, []);
+  }, [tableName]);
 
   useEffect(() => {
     let scrollInterval;
@@ -49,19 +61,16 @@ const FeaturedProperties = () => {
 
         const scrollAmount = isMobile ? itemWidth + gap : itemWidth + gap;
 
-        // Check if we're at the end of the scroll
         const maxScrollLeft =
           carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
         const currentScrollLeft = carouselRef.current.scrollLeft;
 
         if (currentScrollLeft >= maxScrollLeft) {
-          // If at the end, scroll back to the start
           carouselRef.current.scrollTo({
             left: 0,
             behavior: "smooth",
           });
         } else {
-          // Otherwise, continue scrolling
           carouselRef.current.scrollBy({
             left: scrollAmount,
             behavior: "smooth",
@@ -86,16 +95,13 @@ const FeaturedProperties = () => {
   };
 
   return (
-    <motion.section
-      variants={itemVariants}
-      className={`max-w-7xl mx-auto py-12`}
-    >
+    <motion.section variants={itemVariants} className="max-w-7xl mx-auto py-12">
       <div className="text-center mb-10">
         <motion.h2
           variants={itemVariants}
           className="text-4xl font-roboto font-bold mb-4 text-gray-800 tracking-tight"
         >
-          Ready to Move In Projects
+          {heading}
         </motion.h2>
       </div>
 
@@ -126,29 +132,6 @@ const FeaturedProperties = () => {
                 <MapPin className="mr-2 w-5 h-5 text-btn-800" />
                 <span className="text-sm">{property.location}</span>
               </div>
-
-              <div className="grid grid-cols-3 gap-2 mb-4 text-center">
-                {property.beds && (
-                  <div className="bg-gray-50 p-2 rounded-xl">
-                    <Bed className="mx-auto mb-1 w-5 h-5 text-btn-800" />
-                    <span className="text-xs font-medium">
-                      {property.beds} BHK
-                    </span>
-                  </div>
-                )}
-                {property.baths && (
-                  <div className="bg-gray-50 p-2 rounded-xl">
-                    <Bath className="mx-auto mb-1 w-5 h-5 text-btn-800" />
-                    <span className="text-xs font-medium">
-                      {property.baths} Baths
-                    </span>
-                  </div>
-                )}
-                <div className="bg-gray-50 p-2 rounded-xl">
-                  <Ruler className="mx-auto mb-1 w-5 h-5 text-btn-800" />
-                  <span className="text-xs font-medium">{property.area}</span>
-                </div>
-              </div>
             </div>
           </motion.div>
         ))}
@@ -160,9 +143,9 @@ const FeaturedProperties = () => {
         className="mt-10 mx-auto block px-12 py-3 md:px-12 md:py-4 bg-btn-800 
           text-white text-lg font-montserrat font-semibold shadow-2xl 
           hover:shadow-btn-800/50 transition-all duration-300"
-        onClick={() => (window.location.href = "/properties")}
+        onClick={() => (window.location.href = buttonLink)}
       >
-        View All Projects
+        {buttonText}
       </motion.button>
     </motion.section>
   );

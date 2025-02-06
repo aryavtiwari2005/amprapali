@@ -240,7 +240,13 @@ const Homepage = () => {
         </div>
       </motion.section>
 
-      <FeaturedProperties properties={properties} />
+      <FeaturedProperties />
+      <FeaturedProperties
+        tableName="properties"
+        heading="Resale Properties"
+        buttonText="View All Resale Properties"
+        buttonLink="/properties"
+      />
       <LatestInsights />
     </motion.div>
   );
