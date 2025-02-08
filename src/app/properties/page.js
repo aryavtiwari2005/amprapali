@@ -12,10 +12,9 @@ const PropertiesPage = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
-    minPrice: "",
-    maxPrice: "",
-    bhk: "",
-    location: "",
+    project_name: "",
+    beds: "",
+    price: "",
   });
   const router = useRouter();
 
@@ -57,21 +56,12 @@ const PropertiesPage = () => {
   const filteredProperties = properties.filter((property) => {
     const meetsMinPrice =
       !filters.minPrice || property.price >= parseFloat(filters.minPrice);
-    const meetsMaxPrice =
-      !filters.maxPrice || property.price <= parseFloat(filters.maxPrice);
     const meetsBHK = !filters.bhk || property.beds === parseInt(filters.bhk);
-    const meetsLocation =
-      !filters.location ||
-      property.location.toLowerCase().includes(filters.location.toLowerCase());
+    const meetsProject =
+      !filters.projectName || property.project_name === filters.projectName;
 
-    return meetsMinPrice && meetsMaxPrice && meetsBHK && meetsLocation;
+    return meetsMinPrice && meetsBHK && meetsProject;
   });
-
-  const handlePropertyClick = (property) => {
-    if (property.link) {
-      window.open(`/properties${property.link}`, "_blank");
-    }
-  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -79,6 +69,12 @@ const PropertiesPage = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handlePropertyClick = (property) => {
+    if (property.link) {
+      window.open(`/properties${property.link}`, "_blank");
+    }
   };
 
   const containerVariants = {
@@ -105,6 +101,56 @@ const PropertiesPage = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 py-20 pt-24 font-montserrat">
+        <div className="flex flex-wrap gap-4 mb-6">
+          <select
+            name="projectName"
+            value={filters.projectName}
+            onChange={handleFilterChange}
+            className="p-2 border rounded w-full sm:w-auto"
+          >
+            <option value="">All Projects</option>
+            {[...new Set(properties.map((p) => p.project_name))].map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+          <select
+            name="bhk"
+            value={filters.bhk}
+            onChange={handleFilterChange}
+            className="p-2 border rounded w-full sm:w-auto"
+          >
+            <option value="">All BHKs</option>
+            {[...new Set(properties.map((p) => p.beds))].map((beds) => (
+              <option key={beds} value={beds}>
+                {beds} BHK
+              </option>
+            ))}
+          </select>
+          <select
+            name="minPrice"
+            value={filters.minPrice}
+            onChange={handleFilterChange}
+            className="p-2 border rounded w-full sm:w-auto"
+          >
+            <option value="">Any Price</option>
+            {[
+              { label: "Above 40 Lakh", value: 4000000 },
+              { label: "Above 50 Lakh", value: 5000000 },
+              { label: "Above 60 Lakh", value: 6000000 },
+              { label: "Above 70 Lakh", value: 7000000 },
+              { label: "Above 80 Lakh", value: 8000000 },
+              { label: "Above 90 Lakh", value: 9000000 },
+              { label: "Above 1 Cr", value: 10000000 },
+            ].map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {loading ? (
           <motion.div
             initial={{ opacity: 0 }}
