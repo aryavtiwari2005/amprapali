@@ -21,7 +21,7 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", icon: Home, href: "/" },
     { name: "Projects", icon: MapPin, href: "/projects" },
-    { name: "Resale", icon: MapPin, href: "/resale" },
+    { name: "Resale", icon: MapPin, href: "/properties" },
     { name: "About", icon: FileText, href: "/about" },
     { name: "Contact", icon: Phone, href: "/contact" },
   ];

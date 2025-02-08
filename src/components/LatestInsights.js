@@ -67,7 +67,7 @@ const LatestInsights = () => {
           >
             <div className="relative h-60">
               <img
-                src={project.image_url || "/placeholder-project.jpg"}
+                src={project.images[0] || "/placeholder-project.jpg"}
                 alt={project.title}
                 className="w-full h-full object-cover"
               />
