@@ -5,6 +5,7 @@ import { supabase } from "@/utils/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import FeaturedProperties from "./FeaturesProperties";
 import LatestInsights from "./LatestInsights";
+import ProjectsComponent from "./OurProjects";
 
 const Homepage = () => {
   const [properties, setProperties] = useState([]);
@@ -170,79 +171,16 @@ const Homepage = () => {
               font-semibold shadow-2xl hover:shadow-orange-500/50 
               transition-all duration-300
             "
-            onClick={() => (window.location.href = "/properties")}
+            onClick={() => (window.location.href = "/projects")}
           >
-            Explore Properties
+            Explore Projects
           </motion.button>
         </div>
       </motion.section>
-
-      <motion.section
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="max-w-7xl mx-auto py-12 px-6"
-      >
-        <div className="text-center mb-10 font-roboto">
-          <motion.h2
-            className="text-4xl font-roboto font-bold mb-4 
-              text-gray-800 tracking-tight"
-          >
-            Our Projects
-          </motion.h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <motion.div className="relative overflow-hidden rounded-lg">
-            <img
-              src="/amp-landing.jpg"
-              alt="Amrapali Eden Park"
-              className="w-full h-[400px] object-cover"
-            />
-            <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/50 to-transparent">
-              <h3 className="text-white text-2xl font-bold mb-2">
-                Amrapali Eden Park
-              </h3>
-              <p className="text-white mb-4">Sector 50, Noida</p>
-              <button
-                className="bg-white text-black px-6 py-2 rounded-full"
-                onClick={() => {
-                  window.location.href = "/projects";
-                }}
-              >
-                Learn More
-              </button>
-            </div>
-          </motion.div>
-
-          <motion.div className="relative overflow-hidden rounded-lg">
-            <img
-              src="/amp-tech.jpg"
-              alt="Amrapali Tech Park"
-              className="w-full h-[400px] object-cover"
-            />
-            <div className="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black/50 to-transparent">
-              <h3 className="text-white text-2xl font-bold mb-2">
-                Amrapali Tech Park
-              </h3>
-              <p className="text-white mb-4">Sector 62, Noida</p>
-              <button
-                className="bg-white text-black px-6 py-2 rounded-full"
-                onClick={() => {
-                  window.location.href = "/projects";
-                }}
-              >
-                Learn More
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
+      <ProjectsComponent />
       <FeaturedProperties />
       <FeaturedProperties
-        tableName="properties"
+        tableName="resale_amrapali"
         heading="Resale Properties"
         buttonText="View All Resale Properties"
         buttonLink="/properties"

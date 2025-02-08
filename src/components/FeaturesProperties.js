@@ -112,7 +112,14 @@ const FeaturedProperties = ({
         {featuredProperties.map((property, index) => (
           <motion.div
             key={`${property.id}-${index}`}
-            className="min-w-full md:min-w-[500px] w-full md:w-[500px] overflow-hidden border-2 border-black-100 transform transition-all duration-300 flex-shrink-0"
+            onClick={
+              property.link
+                ? tableName == "projects"
+                  ? () => window.open(`/projects${property.link}`, "_blank")
+                  : () => window.open(`/properties${property.link}`, "_blank")
+                : null
+            }
+            className="min-w-full md:min-w-[500px] w-full md:w-[500px] overflow-hidden border-2 border-black-100 transform transition-all duration-300 flex-shrink-0 cursor-pointer"
           >
             <div className="relative">
               <img

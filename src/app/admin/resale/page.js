@@ -13,31 +13,111 @@ export default function AddProperty() {
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Authentication check
   useEffect(() => {
     const checkUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) {
+          router.push("/login");
+        }
+      } catch (error) {
+        console.error("Auth error:", error);
         router.push("/login");
       }
     };
     checkUser();
-    fetchProperties();
   }, []);
+
+  // Fetch projects
+  useEffect(() => {
+    if (!showForm) {
+      fetchProperties();
+    }
+  }, [showForm]);
 
   async function fetchProperties() {
     try {
-      const { data, error } = await supabase.from("properties").select("*");
+      const { data, error } = await supabase
+        .from("resale_amrapali")
+        .select("*");
+
       if (error) throw error;
       setProperties(data || []);
     } catch (error) {
-      console.error("Error fetching properties:", error);
+      console.error("Error fetching property:", error);
     } finally {
       setIsLoading(false);
     }
   }
+
+  async function handleSubmit(formData) {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      if (selectedProperty) {
+        const { error } = await supabase
+          .from("resale_amrapali")
+          .update({
+            ...formData,
+          })
+          .eq("id", selectedProperty.id);
+
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("resale_amrapali").insert([
+          {
+            ...formData,
+            created_at: new Date().toISOString(),
+          },
+        ]);
+
+        if (error) throw error;
+      }
+
+      // Only close form and reset after successful submission
+      setShowForm(false);
+      setSelectedProperty(null);
+      await fetchProperties();
+    } catch (error) {
+      console.error("Error saving property:", error);
+      alert("Error saving property. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handleDelete(id) {
+    if (!window.confirm("Are you sure you want to delete this property?")) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from("resale_amrapali")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+      await fetchProperties();
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      alert("Error deleting property. Please try again.");
+    }
+  }
+
+  const handleCancel = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    setShowForm(false);
+    setSelectedProperty(null);
+  };
 
   async function handleLogout() {
     try {
@@ -54,17 +134,20 @@ export default function AddProperty() {
       <Sidebar />
       <main className="flex-1 p-8 bg-gray-100">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Properties</h1>
+          <h1 className="text-2xl font-bold">Resale</h1>
           <div className="flex items-center space-x-4">
-            <button
-              onClick={() => {
-                setSelectedProperty(null);
-                setShowForm(true);
-              }}
-              className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-            >
-              Add Property
-            </button>
+            {!showForm && (
+              <button
+                onClick={() => {
+                  setSelectedProperty(null);
+                  setShowForm(true);
+                }}
+                className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                disabled={isSubmitting}
+              >
+                Add Property
+              </button>
+            )}
             <button
               onClick={handleLogout}
               className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
@@ -80,11 +163,9 @@ export default function AddProperty() {
           <div className="bg-white p-6 rounded-lg shadow">
             <PropertyForm
               property={selectedProperty}
-              onSubmit={() => {}}
-              onCancel={() => {
-                setShowForm(false);
-                setSelectedProperty(null);
-              }}
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+              isSubmitting={isSubmitting}
             />
           </div>
         ) : (
@@ -95,7 +176,7 @@ export default function AddProperty() {
                 setSelectedProperty(property);
                 setShowForm(true);
               }}
-              onDelete={() => {}}
+              onDelete={handleDelete}
             />
           </div>
         )}

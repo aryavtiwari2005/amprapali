@@ -37,17 +37,11 @@ const CustomCaptcha = ({ onVerify }) => {
   };
 
   return (
-    <div>
-      <div className="flex items-center space-x-4">
-        <input
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Enter the code"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-btn-800"
-        />
+    <div className="w-full max-w-md mx-auto p-4 bg-white rounded-lg shadow-lg">
+      <div className="flex flex-col md:flex-row items-center md:space-x-4 space-y-4 md:space-y-0">
+        {/* Captcha Box */}
         <div
-          className="bg-gray-200 px-4 text-xl py-2 w-full rounded-lg font-bold tracking-widest select-none"
+          className="flex justify-center items-center bg-gray-200 text-2xl py-3 px-6 rounded-lg font-bold tracking-widest select-none w-full md:w-auto"
           style={{
             letterSpacing: "0.2em",
             fontFamily: "monospace",
@@ -67,22 +61,37 @@ const CustomCaptcha = ({ onVerify }) => {
             </span>
           ))}
         </div>
+
+        {/* Refresh Button */}
         <button
           type="button"
           onClick={handleRefresh}
-          className="bg-gray-200 p-2 px-5 text-xl rounded-lg hover:bg-gray-300"
+          className="bg-gray-200 p-3 px-4 rounded-lg hover:bg-gray-300 transition-all text-xl"
         >
           ↻
         </button>
+      </div>
+
+      {/* Input & Verify */}
+      <div className="mt-4 flex flex-col space-y-3">
+        <input
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder="Enter the code"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-btn-800 text-center"
+        />
+
         <button
           type="button"
           onClick={handleVerify}
-          className="mt-2 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
+          className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-all"
         >
           Verify
         </button>
       </div>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+
+      {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
     </div>
   );
 };

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Bed, Bath, Ruler, Star } from "lucide-react";
+import { MapPin, Bed, Bath, Ruler, Star, Car } from "lucide-react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
@@ -34,7 +34,9 @@ const PropertiesPage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const { data, error } = await supabase.from("properties").select("*");
+        const { data, error } = await supabase
+          .from("resale_amrapali")
+          .select("*");
 
         if (error) {
           throw error;
@@ -67,13 +69,7 @@ const PropertiesPage = () => {
 
   const handlePropertyClick = (property) => {
     if (property.link) {
-      // If it's an external link, navigate to it in a new tab
-      if (property.link.startsWith("http")) {
-        window.open(property.link, "_blank");
-      } else {
-        // If it's an internal link, use the router
-        router.push(`/properties/${property.link}`);
-      }
+      window.open(`/properties${property.link}`, "_blank");
     }
   };
 
@@ -159,10 +155,11 @@ const PropertiesPage = () => {
                       <MapPin className="w-4 h-4 md:w-5 md:h-5 text-orange-500 mr-2" />
                       {property.location}
                     </p>
-                    <div className="grid grid-cols-2 gap-3 mb-4 text-center">
+                    <div className="grid grid-cols-3 gap-3 mb-4 text-center">
                       {[
                         { icon: Bed, value: property.beds, label: "BHK" },
-                        { icon: Ruler, value: property.area, label: "Area" },
+                        { icon: Bath, value: property.baths, label: "Baths" },
+                        { icon: Car, value: property.cars, label: "Parking" },
                       ].map((item, index) => (
                         <div
                           key={index}
@@ -179,12 +176,6 @@ const PropertiesPage = () => {
                       <span className="text-lg md:text-2xl font-bold text-gray-800 font-montserrat">
                         {property.price && formatPrice(property.price)}
                       </span>
-                      <div className="flex items-center text-yellow-500">
-                        <Star className="w-5 h-5" />
-                        <span className="ml-1 font-semibold">
-                          {property.rating}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </motion.div>

@@ -7,10 +7,13 @@ export default function PropertyTable({ properties, onEdit, onDelete }) {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th className="px-6 py-3">Title</th>
-            <th className="px-6 py-3">Location</th>
-            <th className="px-6 py-3">Type</th>
+            <th className="px-6 py-3">Resale ID</th>
+            <th className="px-6 py-3">Beds</th>
+            <th className="px-6 py-3">Baths</th>
+            <th className="px-6 py-3">Cars</th>
+            <th className="px-6 py-3">Project Name</th>
+            <th className="px-6 py-3">Floor</th>
             <th className="px-6 py-3">Price</th>
-            <th className="px-6 py-3">Rating</th>
             <th className="px-6 py-3">Actions</th>
           </tr>
         </thead>
@@ -21,10 +24,13 @@ export default function PropertyTable({ properties, onEdit, onDelete }) {
               className="bg-white border-b hover:bg-gray-50"
             >
               <td className="px-6 py-4 font-medium">{property.title}</td>
-              <td className="px-6 py-4">{property.location}</td>
-              <td className="px-6 py-4">{property.type}</td>
+              <td className="px-6 py-4">{property.resale_id}</td>
+              <td className="px-6 py-4">{property.beds}</td>
+              <td className="px-6 py-4">{property.baths}</td>
+              <td className="px-6 py-4">{property.cars}</td>
+              <td className="px-6 py-4">{property.project_name}</td>
+              <td className="px-6 py-4">{property.floor}</td>
               <td className="px-6 py-4">₹{property.price.toLocaleString()}</td>
-              <td className="px-6 py-4">{property.rating}</td>
               <td className="px-6 py-4">
                 <button
                   onClick={() => onEdit(property)}

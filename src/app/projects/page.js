@@ -11,7 +11,55 @@ const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("Residential");
+  const [filters, setFilters] = useState([]);
+
   const router = useRouter();
+
+  const propertyDetails = {
+    Residential: {
+      title: "Residential",
+      description: "We provide the best services for your family living.",
+      image: "/amp-5.png",
+    },
+    Commercial: {
+      title: "Commercial",
+      description: "Explore prime locations for your business growth.",
+      image: "/amp-tech.jpg",
+    },
+    "Ready to Move in": {
+      title: "Ready to Move In",
+      description: "Properties available for immediate possession.",
+      image: "/amp-leisure.jpg",
+    },
+    "Under Construction": {
+      title: "Under Construction",
+      description: "Upcoming projects with top-notch facilities.",
+      image: "/amp-eden.jpeg",
+    },
+    "Show All": {
+      title: "Our Projects",
+      description: "Find the perfect property that suits your needs.",
+      image: "/amp-6.jpg",
+    },
+  };
+
+  // Get current property details based on activeFilter
+  const currentProperty =
+    propertyDetails[activeFilter] || propertyDetails["Show All"];
+
+  useEffect(() => {
+    const fetchFilters = async () => {
+      const { data, error } = await supabase
+        .from("property_type_amrapali")
+        .select("property_type");
+      if (error) {
+        console.error("Error fetching property types:", error);
+      } else {
+        setFilters(data.map((item) => item.property_type));
+      }
+    };
+    fetchFilters();
+  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -36,18 +84,12 @@ const ProjectsPage = () => {
 
   const handleProjectClick = (project) => {
     if (project.link) {
-      // If it's an external link, navigate to it in a new tab
-      if (project.link.startsWith("http")) {
-        window.open(project.link, "_blank");
-      } else {
-        // If it's an internal link, use the router
-        router.push(`/projects/${project.link}`);
-      }
+      window.open(`/projects${project.link}`, "_blank");
     }
   };
 
   const filteredProjects = projects.filter(
-    (project) => project.type === activeFilter
+    (project) => activeFilter === null || project.type === activeFilter
   );
 
   const formatPrice = (price) => {
@@ -81,25 +123,23 @@ const ProjectsPage = () => {
     >
       {/* Hero Section */}
       <Navbar />
+      {/* Hero Section */}
       <div className="relative min-h-screen mb-16">
         <div className="absolute inset-0">
           <img
-            src="/amp-6.jpg"
-            alt="Residential Living"
+            src={currentProperty.image}
+            alt={currentProperty.title}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         </div>
         <div className="relative min-h-screen flex flex-col justify-center px-8">
           <h1 className="text-5xl font-bold text-white mb-4 font-poppins">
-            Residential
+            {currentProperty.title}
           </h1>
           <p className="text-xl text-white mb-6 font-light font-inter">
-            We provide best services for your family living.
+            {currentProperty.description}
           </p>
-          <button className="bg-orange-400 text-white px-6 py-2 rounded-md w-32 hover:bg-orange-500 transition-colors font-medium">
-            Read More
-          </button>
         </div>
       </div>
 
@@ -110,23 +150,20 @@ const ProjectsPage = () => {
         </h2>
 
         {/* Filter Buttons */}
-        <div className="flex justify-center">
-          <div className="flex w-full mb-12 max-w-2xl border border-gray-200 rounded-full overflow-hidden">
-            {[
-              "Residential",
-              "Commercial",
-              "Under Construction",
-              "Ready to Move in",
-            ].map((filter) => (
+        <div className="flex justify-center px-4">
+          <div className="grid grid-cols-2 md:flex w-full mb-12 max-w-2xl overflow-hidden rounded-2xl md:rounded-full border border-gray-200">
+            {["Show All", ...filters].map((filter) => (
               <button
                 key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`flex-1 py-3 text-base font-medium font-montserrat transition-colors
-                  ${
-                    activeFilter === filter
-                      ? "bg-orange-400 text-white"
-                      : "bg-white text-gray-600 hover:bg-gray-50"
-                  }`}
+                onClick={() =>
+                  setActiveFilter(filter === "Show All" ? null : filter)
+                }
+                className={`py-3 px-3 whitespace-nowrap text-sm md:text-base font-medium font-montserrat transition-colors border-b border-r md:border-0 md:flex-1 last:border-r-0 even:border-r-0 ${
+                  activeFilter === filter ||
+                  (filter === "Show All" && activeFilter === null)
+                    ? "bg-btn-800 text-white"
+                    : "bg-white text-gray-600 hover:bg-gray-50"
+                }`}
               >
                 {filter}
               </button>
@@ -178,7 +215,7 @@ const ProjectsPage = () => {
                       {project.title}
                     </h2>
                     <p className="text-sm md:text-base text-gray-600 mb-4 flex items-center">
-                      <MapPin className="w-4 h-4 md:w-5 md:h-5 text-orange-500 mr-2" />
+                      <MapPin className="w-4 h-4 md:w-5 md:h-5 text-btn-800 mr-2" />
                       {project.location}
                     </p>
                     <div className="flex justify-between items-center">

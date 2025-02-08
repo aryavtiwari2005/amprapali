@@ -7,6 +7,7 @@ import {
   Building2,
   FolderOpen,
   RotateCw,
+  BookA,
   FileText,
   Users,
   MessageSquare,
@@ -38,7 +39,7 @@ export default function Sidebar() {
 
       // Fetch properties count
       const { count: propertiesCount, error: propertiesError } = await supabase
-        .from("properties")
+        .from("resale_amrapali")
         .select("*", { count: "exact", head: true });
 
       if (propertiesError) throw propertiesError;
@@ -105,6 +106,11 @@ export default function Sidebar() {
       label: "Enquiry",
       href: "/admin/enquiry",
       count: counts.enquiry,
+    },
+    {
+      icon: BookA,
+      label: "Manage Pages",
+      href: "/admin/manage",
     },
   ];
 

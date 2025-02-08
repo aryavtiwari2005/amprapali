@@ -3,7 +3,7 @@
 import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
-import ProjectDetail from "@/components/ProjectDetail";
+import ResaleDetail from "@/components/ResaleDetail";
 
 export default function PropertyPage({ params }) {
   const [property, setProperty] = useState(null);
@@ -15,7 +15,7 @@ export default function PropertyPage({ params }) {
     const fetchProperty = async () => {
       try {
         const { data, error } = await supabase
-          .from("properties")
+          .from("resale_amrapali")
           .select("*")
           .eq("link", `/${routeParams.link}`);
 
@@ -32,8 +32,8 @@ export default function PropertyPage({ params }) {
   }, [routeParams.link]);
 
   return (
-    <ProjectDetail
-      project={property}
+    <ResaleDetail
+      resale={property}
       loading={loading}
       router={router}
       backLink="/properties"

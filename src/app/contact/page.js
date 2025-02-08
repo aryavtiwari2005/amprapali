@@ -6,6 +6,7 @@ import { MapPin, Mail, Phone, Send } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/utils/supabaseClient";
+import CustomCaptcha from "@/components/CustomCaptcha";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ const ContactPage = () => {
   const [formStatus, setFormStatus] = useState("");
   const [formError, setFormError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
   const validateForm = () => {
     const { name, email, mobile, message } = formData;
@@ -27,6 +29,7 @@ const ContactPage = () => {
     if (!/^\d{10}$/.test(mobile))
       return "Valid 10-digit mobile number is required.";
     if (!message.trim()) return "Message is required.";
+    if (!isCaptchaVerified) return "Please complete the CAPTCHA verification.";
     return "";
   };
 
@@ -191,6 +194,8 @@ const ContactPage = () => {
                   transition-all text-sm sm:text-base"
               />
             </div>
+
+            <CustomCaptcha onVerify={setIsCaptchaVerified} />
 
             {formError && <p className="text-red-500 text-sm">{formError}</p>}
 
