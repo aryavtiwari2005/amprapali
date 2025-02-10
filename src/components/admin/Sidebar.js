@@ -8,8 +8,8 @@ import {
   FolderOpen,
   RotateCw,
   BookA,
+  Image,
   FileText,
-  Users,
   MessageSquare,
 } from "lucide-react";
 import Link from "next/link";
@@ -111,6 +111,16 @@ export default function Sidebar() {
       icon: BookA,
       label: "Manage Pages",
       href: "/admin/manage",
+    },
+    {
+      icon: Image,
+      label: "Popup",
+      href: "/admin/popup",
+    },
+    {
+      icon: FileText,
+      label: "Blogs",
+      href: "/admin/blogs",
     },
   ];
 

@@ -101,12 +101,12 @@ const PropertiesPage = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 py-20 pt-24 font-montserrat">
-        <div className="flex flex-wrap gap-4 mb-6">
+        <div className="flex flex-wrap gap-6 mb-6">
           <select
             name="projectName"
             value={filters.projectName}
             onChange={handleFilterChange}
-            className="p-2 border rounded w-full sm:w-auto"
+            className="p-2 pr-24 border rounded w-full sm:w-auto"
           >
             <option value="">All Projects</option>
             {[...new Set(properties.map((p) => p.project_name))].map((name) => (
@@ -119,7 +119,7 @@ const PropertiesPage = () => {
             name="bhk"
             value={filters.bhk}
             onChange={handleFilterChange}
-            className="p-2 border rounded w-full sm:w-auto"
+            className="p-2 pr-24 border rounded w-full sm:w-auto"
           >
             <option value="">All BHKs</option>
             {[...new Set(properties.map((p) => p.beds))].map((beds) => (
@@ -132,7 +132,7 @@ const PropertiesPage = () => {
             name="minPrice"
             value={filters.minPrice}
             onChange={handleFilterChange}
-            className="p-2 border rounded w-full sm:w-auto"
+            className="p-2 pr-24 border rounded w-full sm:w-auto"
           >
             <option value="">Any Price</option>
             {[

@@ -23,6 +23,7 @@ const Navbar = () => {
     { name: "Projects", icon: MapPin, href: "/projects" },
     { name: "Resale", icon: MapPin, href: "/properties" },
     { name: "About", icon: FileText, href: "/about" },
+    { name: "Blogs", icon: FileText, href: "/blogs" },
     { name: "Contact", icon: Phone, href: "/contact" },
   ];
 
