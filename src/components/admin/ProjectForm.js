@@ -4,30 +4,41 @@ import RichTextEditor from "../RichTextEditor";
 
 const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
   const [formData, setFormData] = useState(
-    project || {
-      title: "",
-      location: "",
-      price: "",
-      type: "",
-      description: "",
-      images: [],
-      link: "",
-      master_plan: "",
-      location_map: "",
-      floor_map: [],
-      faq: "",
-    }
+    project
+      ? {
+          ...project,
+          faq_questions: project.faq_questions.join(","), // Convert array to string
+          faq_answers: project.faq_answers.join(","), // Convert array to string
+        }
+      : {
+          title: "",
+          location: "",
+          price: "",
+          type: "",
+          description: "",
+          images: [],
+          link: "",
+          master_plan: "",
+          location_map: "",
+          floor_map: [],
+          faq_questions: "", // Initialize as string
+          faq_answers: "", // Initialize as string
+          rera: "",
+          rera_qr: "",
+        }
   );
 
   const [floorMapFiles, setFloorMapFiles] = useState([]);
   const [masterPlanFiles, setMasterPlanFiles] = useState([]);
   const [locationMapFiles, setLocationMapFiles] = useState([]);
+  const [reraQrFiles, setReraQrFiles] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
   const floorMapInputRef = useRef(null);
   const masterPlanInputRef = useRef(null);
   const locationMapInputRef = useRef(null);
+  const reraQrInputRef = useRef(null);
   const [propertyTypes, setPropertyTypes] = useState([]);
   const [locations, setLocations] = useState([]);
 
@@ -83,12 +94,16 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
       const uploadedFloorMapUrls = await uploadImages(floorMapFiles);
       const uploadedMasterPlanUrl = await uploadImages(masterPlanFiles);
       const uploadedLocationMapUrl = await uploadImages(locationMapFiles);
+      const uploadedReraQrUrl = await uploadImages(reraQrFiles);
       const newProject = {
         ...formData,
+        faq_questions: formData.faq_questions.split(","),
+        faq_answers: formData.faq_answers.split(","),
         images: [...(formData.images || []), ...uploadedImageUrls],
         floor_map: [...(formData.floor_map || []), ...uploadedFloorMapUrls],
         master_plan: uploadedMasterPlanUrl[0],
         location_map: uploadedLocationMapUrl[0],
+        rera_qr: uploadedReraQrUrl[0],
       };
 
       await onSubmit(newProject);
@@ -115,6 +130,10 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
 
   const handleLocationMapChange = (e) => {
     setLocationMapFiles(Array.from(e.target.files));
+  };
+
+  const handleReraQrChange = (e) => {
+    setReraQrFiles(Array.from(e.target.files));
   };
 
   const sanitizeFileName = (fileName) => {
@@ -228,6 +247,31 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            RERA
+          </label>
+          <input
+            type="text"
+            required
+            value={formData.rera}
+            onChange={(e) => setFormData({ ...formData, rera: e.target.value })}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Upload RERA QR Code
+          </label>
+          <input
+            ref={reraQrInputRef}
+            type="file"
+            onChange={handleReraQrChange}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+          />
+        </div>
+
         <div className="col-span-2">
           <label className="block text-sm font-medium text-gray-700">URL</label>
           <input
@@ -251,13 +295,33 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
           />
         </div>
 
-        <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700">FAQ</label>
-          <RichTextEditor
-            content={formData.faq}
-            onChange={(newContent) =>
-              setFormData({ ...formData, faq: newContent })
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            FAQ Questions (Comma Seperated)
+          </label>
+          <input
+            type="text"
+            value={formData.faq_questions}
+            onChange={(e) =>
+              setFormData({ ...formData, faq_questions: e.target.value })
             }
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+            placeholder="Enter faq questions separated by comma"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            FAQ Answers (Comma Seperated)
+          </label>
+          <input
+            type="text"
+            value={formData.faq_answers}
+            onChange={(e) =>
+              setFormData({ ...formData, faq_answers: e.target.value })
+            }
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+            placeholder="Enter faq answers separated by commma"
           />
         </div>
 

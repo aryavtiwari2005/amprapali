@@ -17,12 +17,6 @@ import ContactSection from "./ContactSection";
 const ProjectDetail = ({ project, loading, router, backLink }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedBHK, setSelectedBHK] = useState("All");
-  const [showFullFaq, setShowFullFaq] = useState(false);
-
-  // Function to toggle FAQ visibility
-  const toggleFaqVisibility = () => {
-    setShowFullFaq(!showFullFaq);
-  };
 
   // Extract unique BHK types from floor map image names
   const getBHKTypes = (floorMaps) => {
@@ -168,27 +162,70 @@ const ProjectDetail = ({ project, loading, router, backLink }) => {
 
           {/* Project Details */}
           <div className="space-y-6">
-            <div className="mt-10">
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                {project.title}
-              </h1>
-              <p className="text-gray-600 flex items-center">
-                <MapPin className="w-5 h-5 text-btn-800 mr-2" />
-                {project.location}
-              </p>
-            </div>
+            <div className="mt-10 flex justify-between items-start">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                  {project.title}
+                </h1>
+                <p className="text-gray-600 flex items-center">
+                  <MapPin className="w-5 h-5 text-btn-800 mr-2" />
+                  {project.location}
+                </p>
+              </div>
 
-            <div className="border-t pt-6">
-              <h2 className="text-2xl font-semibold mb-4">
-                Pricing:{" "}
-                <span className="text-btn-800">
-                  {" "}
-                  {formatPrice(project.price)}{" "}
-                </span>
-              </h2>
-              <h2 className="text-2xl font-semibold mb-4">
-                RERA REG: {project.rera}
-              </h2>
+              <div className="text-right">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  Pricing:{" "}
+                  <span className="text-btn-800">
+                    {formatPrice(project.price)}
+                  </span>
+                </h2>
+                <h2 className="text-lg relative">
+                  RERA REG:{" "}
+                  <span
+                    className="hover:underline cursor-pointer"
+                    onMouseMove={(e) => {
+                      const tooltip =
+                        document.getElementById("rera-qr-tooltip");
+                      if (tooltip) {
+                        tooltip.style.left = `${e.clientX + 10}px`; // Offset for better visibility
+                        tooltip.style.top = `${e.clientY + 10}px`;
+                      }
+                    }}
+                    onMouseEnter={() => {
+                      const tooltip =
+                        document.getElementById("rera-qr-tooltip");
+                      if (tooltip) {
+                        tooltip.style.display = "block";
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      const tooltip =
+                        document.getElementById("rera-qr-tooltip");
+                      if (tooltip) {
+                        tooltip.style.display = "none";
+                      }
+                    }}
+                  >
+                    {project.rera}
+                  </span>
+                  <div
+                    id="rera-qr-tooltip"
+                    style={{
+                      display: "none",
+                      position: "fixed",
+                      pointerEvents: "none",
+                      zIndex: 1000,
+                    }}
+                  >
+                    <img
+                      src={project.rera_qr}
+                      alt="RERA QR Code"
+                      className="w-36 h-36 border border-gray-200 rounded-lg shadow-lg"
+                    />
+                  </div>
+                </h2>
+              </div>
             </div>
 
             <div className="border-t pt-6">
@@ -268,32 +305,40 @@ const ProjectDetail = ({ project, loading, router, backLink }) => {
                 {project.title} Frequently Asked Questions (FAQ)
               </h2>
               <div className="text-gray-600">
-                {/* Show truncated FAQ if "Read More" is not clicked */}
-                {!showFullFaq && (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        project.faq.length > 500
-                          ? `${project.faq.substring(0, 500)}...`
-                          : project.faq,
-                    }}
-                  />
-                )}
-
-                {/* Show full FAQ if "Read More" is clicked */}
-                {showFullFaq && (
-                  <div dangerouslySetInnerHTML={{ __html: project.faq }} />
-                )}
-
-                {/* Show "Read More" or "Read Less" button conditionally */}
-                {project.faq.length > 500 && (
-                  <button
-                    onClick={toggleFaqVisibility}
-                    className="text-orange-500 hover:text-orange-600 mt-2 focus:outline-none"
-                  >
-                    {showFullFaq ? "Read Less..." : "Read More..."}
-                  </button>
-                )}
+                {project.faq_questions.map((question, index) => (
+                  <div key={index} className="mb-4">
+                    <div className="flex items-center">
+                      <h3 className="text-lg font-bold mr-5">
+                        Q{index + 1}. {question}
+                      </h3>
+                      <button
+                        onClick={() => {
+                          const answer = document.getElementById(
+                            `answer-${index}`
+                          );
+                          if (
+                            answer.style.display === "none" ||
+                            !answer.style.display
+                          ) {
+                            answer.style.display = "block";
+                          } else {
+                            answer.style.display = "none";
+                          }
+                        }}
+                        className="text-btn-800 hover:text-orange-500"
+                      >
+                        View Answer
+                      </button>
+                    </div>
+                    <div
+                      id={`answer-${index}`}
+                      style={{ display: "none" }}
+                      className="mt-2"
+                    >
+                      <p>{project.faq_answers[index]}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 

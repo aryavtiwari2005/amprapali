@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabaseClient";
-import { X, ExternalLink } from "lucide-react";
+import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ImagePopup = ({ tableName = "popup_amrapali", autoOpen = true }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [popupData, setPopupData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState({
+    name: "",
+    mobile: "",
+    email: "",
+  });
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    mobile: "",
+    email: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchPopupData = async () => {
@@ -35,9 +46,74 @@ const ImagePopup = ({ tableName = "popup_amrapali", autoOpen = true }) => {
     fetchPopupData();
   }, [tableName, autoOpen]);
 
-  const handleRedirect = () => {
-    if (popupData?.link) {
-      window.open(popupData.link, "_blank", "noopener,noreferrer");
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    // Clear errors when the user starts typing
+    setFormErrors({ ...formErrors, [name]: "" });
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    let isValid = true;
+
+    // Name validation
+    if (!formData.name.trim()) {
+      errors.name = "Name is required";
+      isValid = false;
+    }
+
+    // Mobile validation
+    if (!formData.mobile.trim()) {
+      errors.mobile = "Mobile is required";
+      isValid = false;
+    } else if (!/^\d{10}$/.test(formData.mobile)) {
+      errors.mobile = "Mobile must be 10 digits";
+      isValid = false;
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Invalid email address";
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return; // Stop submission if validation fails
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase.from("contact-amrapali").insert([
+        {
+          name: formData.name,
+          mobile: formData.mobile,
+          email: formData.email,
+          url: "popup", // Send the current URL
+          message: "", // No message
+        },
+      ]);
+
+      if (error) throw error;
+
+      alert("Thank you for contacting us! We will get back to you soon.");
+      setFormData({ name: "", mobile: "", email: "" }); // Reset form
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Error submitting form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -64,15 +140,7 @@ const ImagePopup = ({ tableName = "popup_amrapali", autoOpen = true }) => {
                 ease: "easeInOut",
               },
             }}
-            className={`
-              relative bg-white rounded-2xl shadow-2xl
-              overflow-hidden 
-              ${
-                popupData?.text
-                  ? "flex flex-col md:flex-row w-[90%] md:w-[80%] h-[70vh] max-h-[80vh]"
-                  : "w-[80%] h-[70vh] max-h-[80vh]"
-              }
-            `}
+            className="relative bg-white rounded-2xl shadow-2xl w-[90%] md:w-[80%] h-[70vh] max-h-[80vh] flex flex-col md:flex-row"
           >
             {loading ? (
               <div className="w-full h-full flex items-center justify-center">
@@ -82,77 +150,93 @@ const ImagePopup = ({ tableName = "popup_amrapali", autoOpen = true }) => {
               <>
                 {/* Image Section */}
                 <div
-                  className={`
-                    cursor-pointer relative
-                    ${
-                      popupData.text
-                        ? "md:w-1/2 h-1/2 md:h-full bg-cover bg-center hover:scale-105 bg-no-repeat"
-                        : "w-full h-full bg-contain bg-center bg-no-repeat"
-                    }
-                    transition-transform
-                  `}
+                  className="
+                    w-full md:w-1/2 h-1/2 md:h-full
+                    bg-cover bg-center bg-no-repeat
+                    hover:scale-105 transition-transform
+                  "
                   style={{
                     backgroundImage: `url(${popupData.image})`,
-                    backgroundSize: popupData.text ? "contain" : "contain",
                   }}
-                  onClick={handleRedirect}
+                ></div>
+
+                {/* Contact Form Section */}
+                <div
+                  className="
+                    w-full md:w-1/2 p-6
+                    flex flex-col justify-center space-y-4
+                    overflow-y-auto
+                  "
                 >
-                  <div
-                    className="
-                      absolute top-5 right-5 p-2
-                      text-white hover:text-orange-300
-                      transition-colors
-                    "
-                  >
-                    <ExternalLink className="w-6 h-6 opacity-70 hover:opacity-100" />
-                  </div>
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleFormChange}
+                        required
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                      />
+                      {formErrors.name && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {formErrors.name}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Mobile
+                      </label>
+                      <input
+                        type="tel"
+                        name="mobile"
+                        value={formData.mobile}
+                        onChange={handleFormChange}
+                        required
+                        pattern="\d{10}"
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                      />
+                      {formErrors.mobile && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {formErrors.mobile}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleFormChange}
+                        required
+                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                      />
+                      {formErrors.email && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {formErrors.email}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="
+                        bg-btn-800 text-white px-6 py-2
+                        rounded-full hover:bg-orange-500
+                        transition-colors w-full
+                      "
+                    >
+                      {isSubmitting ? "Sending..." : "Send"}
+                    </button>
+                  </form>
                 </div>
-
-                {/* Text Section (Conditional Rendering) */}
-                {popupData.text && (
-                  <div
-                    className="
-                      md:w-1/2 p-6 overflow-y-auto
-                      flex flex-col justify-center space-y-4
-                    "
-                  >
-                    <h2
-                      className="
-                        text-2xl font-bold text-gray-800
-                        mb-2 border-b pb-2
-                      "
-                    >
-                      {popupData.title}
-                    </h2>
-                    <p className="text-gray-600 mb-4">{popupData.text}</p>
-                    <button
-                      onClick={handleRedirect}
-                      className="
-                        bg-btn-800 text-white px-6 py-2
-                        rounded-full hover:bg-orange-500
-                        transition-colors
-                      "
-                    >
-                      Learn More
-                    </button>
-                  </div>
-                )}
-
-                {/* Learn More Button for Image-Only Popup */}
-                {!popupData.text && popupData.link && (
-                  <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2">
-                    <button
-                      onClick={handleRedirect}
-                      className="
-                        bg-btn-800 text-white px-6 py-2
-                        rounded-full hover:bg-orange-500
-                        transition-colors
-                      "
-                    >
-                      Learn More
-                    </button>
-                  </div>
-                )}
               </>
             ) : (
               <div className="w-full p-6 text-center text-gray-500">

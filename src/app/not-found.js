@@ -1,76 +1,57 @@
-"use client"; // Ensure this is a client component if using hooks or interactivity
+"use client"; // Ensure this is a client component
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 const NotFoundPage = () => {
-  // Variants for consistent animations
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const [isClient, setIsClient] = useState(false);
 
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-      },
-    },
-  };
+  useEffect(() => {
+    setIsClient(true); // Ensures animation only runs on client
+  }, []);
 
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
+    <div
       className="
-        min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 
-        font-sans flex items-center justify-center
+        min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 
+        flex flex-col items-center justify-center text-center p-6
       "
     >
-      <motion.div variants={itemVariants} className="text-center">
+      {isClient ? (
         <motion.h1
-          variants={itemVariants}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="
-            text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold mb-6 
-            leading-tight text-transparent bg-clip-text 
-            bg-gradient-to-r from-gray-800 to-gray-600
+            text-5xl md:text-6xl lg:text-7xl font-bold 
+            bg-gradient-to-r from-gray-900 to-gray-600 text-transparent bg-clip-text
+            drop-shadow-[2px_2px_0px_rgba(0,0,0,0.6)] 
           "
         >
           404 - Page Not Found
         </motion.h1>
-        <motion.p
-          variants={itemVariants}
-          className="text-lg text-gray-600 mb-8"
+      ) : (
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800">
+          404 - Page Not Found
+        </h1>
+      )}
+      <p className="text-lg md:text-xl text-gray-700 mt-4">
+        Oops! The page you're looking for doesn't exist.
+      </p>
+      <div className="mt-8">
+        <Link
+          href="/"
+          className="
+            px-8 py-3 md:px-12 md:py-4 bg-gray-900 text-white 
+            rounded-full text-lg font-semibold shadow-lg 
+            hover:bg-gray-800 hover:scale-105 transition-all duration-300
+          "
         >
-          Oops! The page you're looking for doesn't exist.
-        </motion.p>
-        <motion.div variants={itemVariants}>
-          <Link
-            href="/"
-            className="
-              px-8 py-3 md:px-12 md:py-4 bg-btn-800 
-              text-white rounded-full text-lg font-montserrat 
-              font-semibold shadow-2xl hover:shadow-orange-500/50 
-              transition-all duration-300
-            "
-          >
-            Go Back Home
-          </Link>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+          Go Back Home
+        </Link>
+      </div>
+    </div>
   );
 };
 
