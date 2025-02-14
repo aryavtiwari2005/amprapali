@@ -217,7 +217,7 @@ const BlogPost = ({ params }) => {
                         className="w-full flex-shrink-0 p-2"
                       >
                         <a
-                          href={`/blog/${relatedBlog.slug}`}
+                          href={`/blogs/${relatedBlog.slug}`}
                           className="block group"
                         >
                           <div className="aspect-video relative rounded-lg overflow-hidden mb-2">
