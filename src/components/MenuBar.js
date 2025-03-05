@@ -17,6 +17,7 @@ import {
   Undo,
   Redo,
   Type,
+  Image as ImageIcon,
 } from "lucide-react";
 
 const MenuBar = ({ editor }) => {
@@ -69,6 +70,13 @@ const MenuBar = ({ editor }) => {
     const url = window.prompt("URL:");
     if (url) {
       editor.chain().focus().setLink({ href: url }).run();
+    }
+  };
+
+  const addImage = () => {
+    const url = window.prompt("Enter the URL of the image:");
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
     }
   };
 
@@ -285,6 +293,14 @@ const MenuBar = ({ editor }) => {
             title="Add Link"
           >
             <LinkIcon size={16} />
+          </button>
+          <button
+            type="button"
+            onClick={addImage}
+            className="p-2 rounded hover:bg-gray-100"
+            title="Add Image"
+          >
+            <ImageIcon size={16} />
           </button>
         </div>
 

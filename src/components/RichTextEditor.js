@@ -7,6 +7,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
+import Image from '@tiptap/extension-image';
 import MenuBar from "./MenuBar";
 import { FontSize } from "./FontSize";
 
@@ -16,7 +17,7 @@ const RichTextEditor = ({ content, onChange }) => {
       StarterKit,
       Underline,
       TextAlign.configure({
-        types: ["heading", "paragraph"],
+        types: ["heading", "paragraph", "image"],
       }),
       TextStyle,
       Color,
@@ -25,6 +26,11 @@ const RichTextEditor = ({ content, onChange }) => {
         openOnClick: false,
       }),
       FontSize,
+      Image.configure({
+        HTMLAttributes: {
+          class: 'max-w-full h-auto',
+        },
+      }),
     ],
     content: content,
     onUpdate: ({ editor }) => {

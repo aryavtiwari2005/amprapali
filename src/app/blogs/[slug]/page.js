@@ -269,7 +269,7 @@ const BlogPost = ({ params }) => {
                 {projects.map((project) => (
                   <a
                     key={project.id}
-                    href={`/projects/${project.id}`}
+                    href={`/projects${project.link}`}
                     className="block p-4 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-start gap-4">

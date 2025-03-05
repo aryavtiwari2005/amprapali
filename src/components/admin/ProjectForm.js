@@ -7,8 +7,10 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
     project
       ? {
           ...project,
-          faq_questions: project.faq_questions.join(","), // Convert array to string
-          faq_answers: project.faq_answers.join(","), // Convert array to string
+          faq_questions: project.faq_questions
+            ? project.faq_questions.join(",")
+            : "", // Add null check
+          faq_answers: project.faq_answers ? project.faq_answers.join(",") : "", // Convert array to string
         }
       : {
           title: "",
@@ -25,6 +27,7 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
           faq_answers: "", // Initialize as string
           rera: "",
           rera_qr: "",
+          vid_link: "",
         }
   );
 
@@ -262,7 +265,8 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Upload RERA QR Code
+            Upload RERA QR Code (Make sure the image is sqaure 1:1 for eg
+            200x200)
           </label>
           <input
             ref={reraQrInputRef}
@@ -272,13 +276,36 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
           />
         </div>
 
-        <div className="col-span-2">
+        <div>
           <label className="block text-sm font-medium text-gray-700">URL</label>
+          <div className="mt-1 flex rounded-md shadow-sm">
+            <input
+              type="text"
+              value={"http://localhost:3000/properties"}
+              className="mt-1 w-full block rounded-md border border-gray-300 px-3 py-2 cursor-not-allowed"
+              editable={false}
+            />
+            <input
+              type="text"
+              value={formData.link || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, link: e.target.value })
+              }
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Youtube Video link
+          </label>
           <input
             type="text"
-            required
-            value={formData.link}
-            onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+            value={formData.vid_link}
+            onChange={(e) =>
+              setFormData({ ...formData, vid_link: e.target.value })
+            }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
           />
         </div>
@@ -344,7 +371,7 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
 
         <div className="col-span-2">
           <label className="block text-sm font-medium text-gray-700">
-            Upload Images
+            Upload Images (Could be in any ratio)
           </label>
           <input
             ref={fileInputRef}
@@ -378,7 +405,8 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
 
         <div className="col-span-2">
           <label className="block text-sm font-medium text-gray-700">
-            Upload Floor Map &nbsp;
+            Upload Floor Map &nbsp; (Make sure to upload images in square 1:1
+            for eg 200x200)
             <b>
               Make sure to upload images in this certain file format eg,
               "3BHK+2T+3S-1200SqFt.jpg" or "2BHK+2Study+3S-1215SqFt.jpg"
@@ -418,7 +446,7 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Upload Master Plan
+            Upload Master Plan (Could be in any ratio)
           </label>
           <input
             ref={masterPlanInputRef}
@@ -454,7 +482,7 @@ const ProjectForm = ({ project, onSubmit, onCancel, isSubmitting }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Upload Location Map
+            Upload Location Map (Could be in any ratio)
           </label>
           <input
             ref={locationMapInputRef}

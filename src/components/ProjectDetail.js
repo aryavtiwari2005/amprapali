@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ResaleSection from "./ResaleSection";
 import ContactSection from "./ContactSection";
 
 const ProjectDetail = ({ project, loading, router, backLink }) => {
@@ -91,6 +92,17 @@ const ProjectDetail = ({ project, loading, router, backLink }) => {
     } else {
       return `₹${priceNum.toLocaleString()}`;
     }
+  };
+
+  const getYoutubeVideoId = (url) => {
+    if (!url) return null;
+
+    // Handle different YouTube URL formats
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return match && match[2].length === 11 ? match[2] : null;
   };
 
   if (loading) {
@@ -235,6 +247,27 @@ const ProjectDetail = ({ project, loading, router, backLink }) => {
               ></p>
             </div>
 
+            {project.vid_link && (
+              <div className="border-t pt-6">
+                <h2 className="text-2xl font-semibold mb-4">Project Video</h2>
+                <div
+                  className="relative w-full"
+                  style={{ paddingTop: "56.25%" }}
+                >
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                    src={`https://www.youtube.com/embed/${getYoutubeVideoId(
+                      project.vid_link
+                    )}`}
+                    title={`${project.title} Video`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            )}
+
             {/* Floor Plans Section */}
             {project.floor_map && project.floor_map.length > 0 && (
               <div className="border-t pt-6">
@@ -288,6 +321,8 @@ const ProjectDetail = ({ project, loading, router, backLink }) => {
                 </div>
               </div>
             )}
+
+            <ResaleSection project={project} />
 
             <div className="border-t pt-6">
               <h2 className="text-2xl font-semibold mb-4">Master Plan</h2>

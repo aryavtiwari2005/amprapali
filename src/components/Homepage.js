@@ -91,13 +91,13 @@ const Homepage = () => {
       </motion.section>
       <ProjectsComponent />
       <FeaturedProperties />
+      <LatestInsights />
       <FeaturedProperties
         tableName="resale_amrapali"
         heading="Resale Properties"
         buttonText="View All Resale Properties"
         buttonLink="/properties"
       />
-      <LatestInsights />
     </motion.div>
   );
 };

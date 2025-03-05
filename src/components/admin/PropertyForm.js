@@ -288,7 +288,7 @@ export default function PropertyForm({
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Upload Images
+          Upload Images (Could be of any ratio)
         </label>
         <input
           ref={fileInputRef}

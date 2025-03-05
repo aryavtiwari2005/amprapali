@@ -269,7 +269,7 @@ export default function BlogAdmin() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Upload Featured Image
+                    Upload Featured Image (Should be of size 16:9)
                   </label>
                   <input
                     ref={fileInputRef}

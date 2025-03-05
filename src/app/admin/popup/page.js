@@ -240,7 +240,7 @@ export default function PopupAdmin() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Upload Image
+                    Upload Image (Should be of ratio 16:9)
                   </label>
                   <input
                     ref={fileInputRef}
