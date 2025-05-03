@@ -35,7 +35,7 @@ const ImagePopup = ({ tableName = "popup_amrapali", autoOpen = true }) => {
         if (error) throw error;
         setPopupData(data);
 
-        if (data && autoOpen) {
+        if (data && autoOpen && data.is_enabled) {
           setIsOpen(true);
         }
       } catch (error) {
@@ -121,6 +121,12 @@ const ImagePopup = ({ tableName = "popup_amrapali", autoOpen = true }) => {
     }
   };
 
+  const handleImageClick = () => {
+    if (popupData?.link) {
+      window.open(popupData.link, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -146,10 +152,13 @@ const ImagePopup = ({ tableName = "popup_amrapali", autoOpen = true }) => {
               </div>
             ) : popupData ? (
               <>
-                {/* Image Section - Fixed height on mobile */}
+                {/* Image Section - Fixed height on mobile, clickable */}
                 <div
-                  className="w-full h-64 md:h-auto bg-cover bg-center bg-no-repeat hover:scale-105 transition-transform"
+                  className={`w-full h-64 md:h-auto bg-cover bg-center bg-no-repeat hover:scale-105 transition-transform ${
+                    popupData.link ? "cursor-pointer" : ""
+                  }`}
                   style={{ backgroundImage: `url(${popupData.image})` }}
+                  onClick={handleImageClick}
                 ></div>
 
                 {/* Form Section - Scrollable */}

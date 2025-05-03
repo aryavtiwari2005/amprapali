@@ -91,6 +91,7 @@ export default function PopupAdmin() {
         text: e.target.text.value,
         image: imageUrl,
         link: e.target.link.value,
+        is_enabled: e.target.is_enabled.checked,
       };
 
       let result;
@@ -172,6 +173,7 @@ export default function PopupAdmin() {
                 <th className="px-6 py-3 text-left">Title</th>
                 <th className="px-6 py-3 text-left">Image</th>
                 <th className="px-6 py-3 text-left">Link</th>
+                <th className="px-6 py-3 text-left">Enabled</th>
                 <th className="px-6 py-3 text-right">Actions</th>
               </tr>
             </thead>
@@ -187,10 +189,13 @@ export default function PopupAdmin() {
                     />
                   </td>
                   <td className="px-6 py-4">{popup.link}</td>
+                  <td className="px-6 py-4">
+                    {popup.is_enabled ? "Yes" : "No"}
+                  </td>
                   <td className="px-6 py-4 text-right">
                     <button
                       onClick={() => openEditModal(popup)}
-                      className="text-blue-600 hover:text-blue-800 mr-4"
+                      className="text-blue-600 hovered:text-blue-800 mr-4"
                     >
                       <Edit size={16} />
                     </button>
@@ -284,6 +289,17 @@ export default function PopupAdmin() {
                     rows={4}
                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                   />
+                </div>
+                <div>
+                  <label className="flex items-center text-sm font-medium text-gray-700">
+                    <input
+                      type="checkbox"
+                      name="is_enabled"
+                      defaultChecked={selectedPopup?.is_enabled ?? true}
+                      className="mr-2 rounded border-gray-300"
+                    />
+                    Enable Popup
+                  </label>
                 </div>
                 <div className="flex justify-end space-x-4">
                   <button
